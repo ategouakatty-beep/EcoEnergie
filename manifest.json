@@ -1,9 +1,0 @@
-{
-  "name": "EcoEnergie",
-  "short_name": "EcoEnergie",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#16834a",
-  "description": "Applcation de gestion de Ia consommation énergétique."
-}
