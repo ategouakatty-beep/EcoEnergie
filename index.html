@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ECOENERGIE</title>
+<meta name="theme-color" content="#087f5b">
+<link rel="manifest" href="./manifest.json">
+<title>ÉcoÉnergie</title>
 
 <style>
 * {
@@ -13,156 +15,180 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #edf5ef;
-  color: #20352a;
+  background: #f1f7f4;
+  color: #20332b;
 }
 
 header {
-  background: linear-gradient(135deg, #116b3d, #239b60);
+  background: linear-gradient(135deg, #087f5b, #13a477);
   color: white;
   text-align: center;
   padding: 28px 15px;
 }
 
 header h1 {
-  font-size: 32px;
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+header p {
   margin: 0;
 }
 
-.container {
-  max-width: 1000px;
+main {
+  max-width: 950px;
   margin: auto;
-  padding: 18px;
+  padding: 15px;
 }
 
 .card {
   background: white;
-  padding: 22px;
-  margin-bottom: 20px;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px #00000012;
+  padding: 20px;
+  margin: 16px 0;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px #0000000d;
 }
 
 h2 {
-  color: #137a45;
+  color: #087f5b;
+  font-size: 21px;
   margin-top: 0;
 }
 
 label {
   display: block;
+  margin: 13px 0 6px;
   font-weight: bold;
-  margin: 14px 0 7px;
 }
 
 input, select {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ccd9ce;
+  border: 1px solid #cbd8d0;
   border-radius: 8px;
   font-size: 16px;
+  background: white;
 }
 
 button {
-  background: #16834b;
-  color: white;
-  padding: 12px 16px;
   border: none;
+  padding: 12px 16px;
   border-radius: 8px;
+  background: #087f5b;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
   margin-top: 12px;
 }
 
-button:hover {
-  background: #0c6035;
+button:active {
+  transform: scale(.98);
 }
 
-.delete {
-  background: #bd3434;
-  margin: 0;
+button.secondary {
+  background: #3976a8;
 }
 
-.reset {
-  background: #65756a;
+button.danger {
+  background: #d94848;
+}
+
+button.small {
+  padding: 8px 11px;
+  font-size: 13px;
+  margin: 5px 4px 5px 0;
+}
+
+button.full {
+  width: 100%;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 12px;
 }
 
-.result {
-  background: #eff7f1;
-  padding: 18px;
-  border-radius: 10px;
+.stat {
+  background: #eaf7f0;
+  border-radius: 12px;
+  padding: 15px;
   text-align: center;
 }
 
-.result p {
-  margin: 0;
-  color: #64766a;
+.stat strong {
+  display: block;
+  font-size: 22px;
+  color: #087f5b;
+  margin-top: 8px;
 }
 
-.result h3 {
-  color: #137a45;
-  font-size: 22px;
-  margin-bottom: 0;
-  overflow-wrap: anywhere;
+.horaire {
+  background: #f0f7f3;
+  border: 1px solid #d5e8dc;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.appareil {
+  border: 1px solid #dce8e0;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 12px 0;
+}
+
+.history-item {
+  border: 1px solid #dce8e0;
+  border-radius: 10px;
+  padding: 13px;
+  margin: 12px 0;
+}
+
+.details {
+  background: #f1f7f4;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.message {
+  padding: 13px;
+  border-radius: 9px;
+  margin-top: 12px;
+  background: #eaf7f0;
+  line-height: 1.5;
+}
+
+.message.warning {
+  background: #fff2df;
+}
+
+.message.error {
+  background: #ffe8e8;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
 th, td {
-  padding: 10px 6px;
-  border-bottom: 1px solid #e5ece6;
+  padding: 10px;
+  border-bottom: 1px solid #e1e8e3;
   text-align: left;
-}
-
-th {
-  color: #137a45;
-}
-
-.table-wrap {
-  overflow-x: auto;
-}
-
-#alerte {
-  padding: 16px;
-  border-radius: 9px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.normal {
-  background: #e0f5e7;
-  color: #137a45;
-}
-
-.danger {
-  background: #ffe2e2;
-  color: #b51f1f;
-}
-
-#conseils li {
-  padding: 9px 4px;
-  line-height: 1.5;
-}
-
-.special {
-  background: #fff5dc;
-  padding: 12px;
-  margin: 9px 0;
-  border-radius: 8px;
 }
 
 footer {
   text-align: center;
   padding: 25px;
-  color: #63736a;
+  color: #65756c;
 }
 
 @media(max-width: 550px) {
@@ -171,477 +197,822 @@ footer {
   }
 
   header h1 {
-    font-size: 26px;
+    font-size: 25px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  table {
+    font-size: 13px;
   }
 }
 </style>
-<link rel="manifest" href="manifest.json">
 </head>
 
 <body>
 
 <header>
-  <h1>🌱 ECOÉNERGIE</h1>
-  <p>Gestion intelligente de la consommation électrique</p>
-  <p>Économisons l'énergie, protégeons notre planète !</p>
+  <h1>🌱 ÉcoÉnergie</h1>
+  <p>Suivez et maîtrisez votre consommation électrique</p>
 </header>
 
-<main class="container">
-
-<section class="card">
-  <h2>⚡ Ajouter un appareil</h2>
-
-  <label for="appareil">Nom de l'appareil</label>
-  <select id="appareil">
-    <option value="Ventilateur">Ventilateur</option>
-    <option value="Télévision">Télévision</option>
-    <option value="Lampe">Lampe</option>
-    <option value="Fer à repasser">Fer à repasser</option>
-    <option value="Climatiseur">Climatiseur</option>
-    <option value="Ordinateur">Ordinateur</option>
-    <option value="Réfrigérateur">Réfrigérateur</option>
-    <option value="Autre">Autre appareil</option>
-  </select>
-
-  <label for="puissance">Puissance en watts (W)</label>
-  <input type="number" id="puissance" value="300" min="1" step="any">
-
-  <label for="duree">Durée d'utilisation par jour (heures)</label>
-  <input type="number" id="duree" value="5" min="0" max="24" step="any">
-
-  <label for="tarif">Tarif du kWh (FCFA)</label>
-  <input type="number" id="tarif" value="100" min="0" step="any">
-
-  <button id="ajouter">+ Ajouter l'appareil</button>
-</section>
-
-<section class="card">
-  <h2>📋 Liste des appareils</h2>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Appareil</th>
-          <th>Puissance</th>
-          <th>Durée</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="liste"></tbody>
-    </table>
-  </div>
-
-  <p id="vide">Aucun appareil ajouté pour le moment.</p>
-
-  <button class="reset" id="reinitialiser">
-    Réinitialiser
-  </button>
-</section>
+<main>
 
 <section class="card">
   <h2>📊 Tableau de bord</h2>
 
-  <label for="limite">Limite de consommation quotidienne (kWh)</label>
-  <input type="number" id="limite" value="10" min="0.01" step="any">
-
-  <button id="analyser">Analyser la consommation</button>
-
-  <div class="grid" style="margin-top:18px">
-
-    <div class="result">
-      <p>Nombre d'appareils</p>
-      <h3 id="nombre">0</h3>
+  <div class="grid">
+    <div class="stat">
+      Nombre d'appareils
+      <strong id="nombreAppareils">0</strong>
     </div>
 
-    <div class="result">
-      <p>Puissance totale</p>
-      <h3 id="totalPuissance">0 W</h3>
+    <div class="stat">
+      Puissance totale
+      <strong id="puissanceTotale">0 W</strong>
     </div>
 
-    <div class="result">
-      <p>Consommation quotidienne</p>
-      <h3 id="energieJour">0 kWh</h3>
+    <div class="stat">
+      Consommation journalière
+      <strong id="energieTotale">0 kWh</strong>
     </div>
 
-    <div class="result">
-      <p>Coût journalier</p>
-      <h3 id="coutJour">0 FCFA</h3>
+    <div class="stat">
+      Coût journalier
+      <strong id="coutTotal">0 FCFA</strong>
     </div>
 
-    <div class="result">
-      <p>Consommation mensuelle</p>
-      <h3 id="energieMois">0 kWh</h3>
+    <div class="stat">
+      Consommation mensuelle estimée
+      <strong id="energieMensuelle">0 kWh</strong>
     </div>
 
-    <div class="result">
-      <p>Coût mensuel estimé</p>
-      <h3 id="coutMois">0 FCFA</h3>
+    <div class="stat">
+      Coût mensuel estimé
+      <strong id="coutMensuel">0 FCFA</strong>
     </div>
-
   </div>
 </section>
 
 <section class="card">
-  <h2>🚨 Surveillance énergétique</h2>
+  <h2>➕ Ajouter un appareil</h2>
 
-  <div id="alerte" class="normal">
-    En attente d'une analyse.
+  <label for="nomAppareil">Nom de l'appareil</label>
+  <select id="nomAppareil">
+    <option>Ventilateur</option>
+    <option>Télévision</option>
+    <option>Lampe</option>
+    <option>Fer à repasser</option>
+    <option>Climatiseur</option>
+    <option>Ordinateur</option>
+    <option>Réfrigérateur</option>
+    <option>Autre</option>
+  </select>
+
+  <div id="zoneNomPersonnalise" class="hidden">
+    <label for="nomPersonnalise">Nom personnalisé</label>
+    <input id="nomPersonnalise" type="text"
+      placeholder="Nom de l'appareil">
   </div>
 
-  <p id="diagnostic">
-    Ajoutez des appareils puis lancez une analyse.
-  </p>
+  <label for="puissance">Puissance électrique</label>
+  <div class="grid">
+    <input id="puissance" type="number" min="0.01"
+      step="any" value="75" placeholder="Puissance">
+
+    <select id="unitePuissance">
+      <option value="1">Watt (W)</option>
+      <option value="1000">Kilowatt (kW)</option>
+      <option value="1000000">Mégawatt (MW)</option>
+    </select>
+  </div>
+
+  <label for="tarif">Tarif du kWh (FCFA)</label>
+  <input id="tarif" type="number" min="0"
+    step="any" value="100">
+
+  <hr style="border:0;border-top:1px solid #e1e8e3;margin:22px 0;">
+
+  <h2>🕒 Pages horaires</h2>
+  <p>Ajoutez les différentes périodes d'utilisation de cet appareil.</p>
+
+  <label for="heureDebut">Heure de début</label>
+  <input id="heureDebut" type="time" value="08:00">
+
+  <label for="heureFin">Heure de fin</label>
+  <input id="heureFin" type="time" value="10:00">
+
+  <button type="button" class="secondary full"
+    id="ajouterPageHoraire">
+    + Ajouter une page horaire
+  </button>
+
+  <div id="listePagesHoraires"></div>
+
+  <button type="button" class="full" id="ajouterAppareil">
+    Ajouter l'appareil
+  </button>
+
+  <div id="messageAjout" aria-live="polite"></div>
 </section>
 
 <section class="card">
-  <h2>💡 Nos conseils d'économie</h2>
-
-  <div id="conseilsPersonnalises"></div>
-
-  <ol id="conseils">
-    <li>Éteignez les lumières lorsque vous quittez une pièce.</li>
-    <li>Débranchez les chargeurs lorsqu'ils ne sont pas utilisés.</li>
-    <li>Privilégiez les ampoules LED.</li>
-    <li>Évitez de laisser la télévision allumée inutilement.</li>
-    <li>Réglez correctement votre climatiseur.</li>
-    <li>Éteignez les appareils pendant la nuit lorsqu'ils ne sont pas nécessaires.</li>
-    <li>Choisissez des appareils économes en énergie.</li>
-    <li>Profitez de la lumière naturelle pendant la journée.</li>
-    <li>Limitez l'utilisation des appareils énergivores.</li>
-    <li>Entretenez régulièrement vos appareils électriques.</li>
-  </ol>
+  <h2>⚡ Mes appareils</h2>
+  <div id="listeAppareils">
+    Aucun appareil ajouté.
+  </div>
 </section>
 
 <section class="card">
-  <h2>🌍 À propos du projet</h2>
+  <h2>🎯 Surveillance énergétique</h2>
 
-  <p>
-    ECOÉNERGIE est un logiciel conçu pour aider les
-    utilisateurs à mieux gérer leur consommation électrique.
-  </p>
+  <label for="limiteEnergie">
+    Limite de consommation journalière (kWh)
+  </label>
 
-  <p>
-    Il calcule les dépenses énergétiques, surveille les
-    consommations et propose des conseils pour limiter
-    le gaspillage d'électricité.
-  </p>
+  <input id="limiteEnergie" type="number"
+    min="0" step="any" value="5">
 
-  <strong>Chaque énergie économisée compte ! 🌱</strong>
+  <button type="button" class="full" id="analyser">
+    Analyser ma consommation
+  </button>
+
+  <div id="diagnostic" aria-live="polite"></div>
+</section>
+
+<section class="card">
+  <h2>📚 Historique des analyses</h2>
+
+  <button type="button" class="full" id="enregistrerHistorique">
+    Enregistrer cette analyse
+  </button>
+
+  <div id="historique">
+    Aucun historique enregistré.
+  </div>
+
+  <button type="button" class="danger full"
+    id="effacerHistorique">
+    Effacer tout l'historique
+  </button>
+</section>
+
+<section class="card">
+  <h2>🔄 Réinitialisation</h2>
+  <p>Cette action vide la liste des appareils actuels, mais conserve l'historique enregistré.</p>
+
+  <button type="button" class="danger full"
+    id="reinitialiser">
+    Réinitialiser la liste des appareils
+  </button>
 </section>
 
 </main>
 
 <footer>
-  ECOÉNERGIE © 2026 - Projet scolaire
+  ÉcoÉnergie – Consommons mieux, économisons l'énergie 🌍
 </footer>
 
 <script>
+"use strict";
 
-// Stockage temporaire des appareils
+/* DONNÉES PRINCIPALES */
+
 let appareils = [];
+let pagesHorairesEnCours = [];
 
-// Références des éléments
-const nomInput = document.getElementById("appareil");
-const puissanceInput = document.getElementById("puissance");
-const dureeInput = document.getElementById("duree");
-const tarifInput = document.getElementById("tarif");
+const $ = id => document.getElementById(id);
 
-// Puissances indicatives des appareils
-const puissances = {
-  "Ventilateur": 300,
-  "Télévision": 120,
-  "Lampe": 60,
-  "Fer à repasser": 1000,
-  "Climatiseur": 1500,
-  "Ordinateur": 200,
-  "Réfrigérateur": 150,
-  "Autre": 500
-};
+const nomInput = $("nomAppareil");
+const nomPersonnaliseInput = $("nomPersonnalise");
+const puissanceInput = $("puissance");
+const tarifInput = $("tarif");
+const uniteInput = $("unitePuissance");
+const heureDebutInput = $("heureDebut");
+const heureFinInput = $("heureFin");
 
-// Formater les nombres
-function formatNombre(valeur) {
-  return new Intl.NumberFormat("fr-FR", {
+function nombre(valeur) {
+  return Number(valeur).toLocaleString("fr-FR", {
     maximumFractionDigits: 2
-  }).format(valeur);
+  });
 }
 
-// Choisir un appareil
-nomInput.addEventListener("change", function() {
-  puissanceInput.value = puissances[this.value];
-});
+function texteSecurise(texte) {
+  return String(texte).replace(/[&<>"']/g, caractere => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[caractere]);
+}
 
-// Ajouter un appareil
+function lireHistorique() {
+  try {
+    const donnees = JSON.parse(
+      localStorage.getItem("historiqueEco") || "[]"
+    );
+
+    return Array.isArray(donnees) ? donnees : [];
+  } catch (erreur) {
+    return [];
+  }
+}
+
+function afficherMessage(id, message, type = "") {
+  const zone = $(id);
+  zone.className = type ? "message " + type : "message";
+  zone.textContent = message;
+}
+
+/* PAGES HORAIRES */
+
+function minutes(heure) {
+  const morceaux = heure.split(":");
+  return Number(morceaux[0]) * 60 + Number(morceaux[1]);
+}
+
+function dureePage(page) {
+  return (minutes(page.fin) - minutes(page.debut)) / 60;
+}
+
+function afficherPagesHoraires() {
+  const zone = $("listePagesHoraires");
+
+  if (pagesHorairesEnCours.length === 0) {
+    zone.innerHTML = "<p>Aucune page horaire ajoutée.</p>";
+    return;
+  }
+
+  zone.innerHTML = pagesHorairesEnCours.map((page, index) => `
+    <div class="horaire">
+      <strong>Page horaire ${index + 1}</strong>
+      <p>${texteSecurise(page.debut)} à ${texteSecurise(page.fin)}</p>
+      <p>Durée : ${nombre(dureePage(page))} heure(s)</p>
+      <button type="button" class="danger small"
+        data-supprimer-page="${index}">
+        Supprimer cette page
+      </button>
+    </div>
+  `).join("");
+}
+
+function ajouterPageHoraire() {
+  const debut = heureDebutInput.value;
+  const fin = heureFinInput.value;
+
+  if (!debut || !fin) {
+    afficherMessage("messageAjout",
+      "Veuillez renseigner les deux heures.", "error");
+    return;
+  }
+
+  if (minutes(fin) <= minutes(debut)) {
+    afficherMessage("messageAjout",
+      "L'heure de fin doit être après l'heure de début. Pour une utilisation après minuit, créez deux pages horaires.",
+      "error");
+    return;
+  }
+
+  const nouvellePage = { debut, fin };
+
+  const chevauchement = pagesHorairesEnCours.some(page =>
+    minutes(debut) < minutes(page.fin) &&
+    minutes(fin) > minutes(page.debut)
+  );
+
+  if (chevauchement) {
+    afficherMessage("messageAjout",
+      "Cette page horaire chevauche une autre période.", "error");
+    return;
+  }
+
+  pagesHorairesEnCours.push(nouvellePage);
+  pagesHorairesEnCours.sort((a, b) =>
+    minutes(a.debut) - minutes(b.debut)
+  );
+
+  afficherPagesHoraires();
+
+  afficherMessage("messageAjout",
+    "Page horaire ajoutée avec succès.");
+}
+
+/* APPAREILS */
+
+function nomAppareilActuel() {
+  if (nomInput.value === "Autre") {
+    return nomPersonnaliseInput.value.trim();
+  }
+
+  return nomInput.value;
+}
+
 function ajouterAppareil() {
-
-  const nom = nomInput.value;
-  const puissance = Number(puissanceInput.value);
-  const duree = Number(dureeInput.value);
+  const nom = nomAppareilActuel();
+  const puissanceSaisie = Number(puissanceInput.value);
+  const puissance = puissanceSaisie * Number(uniteInput.value);
   const tarif = Number(tarifInput.value);
 
-  if (
-    !Number.isFinite(puissance) ||
-    !Number.isFinite(duree) ||
-    !Number.isFinite(tarif) ||
-    puissance <= 0 ||
-    duree < 0 ||
-    duree > 24 ||
-    tarif < 0
-  ) {
-    alert("Veuillez vérifier les valeurs saisies.");
+  if (!nom) {
+    afficherMessage("messageAjout",
+      "Veuillez donner un nom à l'appareil.", "error");
+    return;
+  }
+
+  if (!Number.isFinite(puissance) || puissance <= 0) {
+    afficherMessage("messageAjout",
+      "Veuillez saisir une puissance supérieure à zéro.", "error");
+    return;
+  }
+
+  if (!Number.isFinite(tarif) || tarif < 0) {
+    afficherMessage("messageAjout",
+      "Veuillez saisir un tarif valide.", "error");
+    return;
+  }
+
+  if (pagesHorairesEnCours.length === 0) {
+    afficherMessage("messageAjout",
+      "Ajoutez au moins une page horaire.", "error");
+    return;
+  }
+
+  const duree = pagesHorairesEnCours.reduce(
+    (total, page) => total + dureePage(page), 0
+  );
+
+  if (duree > 24) {
+    afficherMessage("messageAjout",
+      "La durée totale ne peut pas dépasser 24 heures.", "error");
     return;
   }
 
   appareils.push({
-    nom: nom,
-    puissance: puissance,
-    duree: duree,
-    tarif: tarif
+    id: Date.now() + Math.random(),
+    nom,
+    puissance,
+    tarif,
+    duree,
+    pagesHoraires: pagesHorairesEnCours.map(page => ({
+      debut: page.debut,
+      fin: page.fin
+    }))
   });
 
-  afficherListe();
+  pagesHorairesEnCours = [];
+
+  afficherPagesHoraires();
+  afficherListeAppareils();
   analyser();
+
+  nomInput.value = "Ventilateur";
+  nomPersonnaliseInput.value = "";
+  puissanceInput.value = 75;
+  uniteInput.value = "1";
+
+  afficherMessage("messageAjout",
+    "Appareil ajouté avec succès !");
 }
 
-// Afficher les appareils
-function afficherListe() {
+function afficherListeAppareils() {
+  const zone = $("listeAppareils");
 
-  const liste = document.getElementById("liste");
-  const vide = document.getElementById("vide");
-
-  liste.replaceChildren();
-
-  vide.style.display =
-    appareils.length === 0 ? "block" : "none";
-
-  appareils.forEach(function(appareil, index) {
-
-    const ligne = document.createElement("tr");
-
-    const valeurs = [
-      appareil.nom,
-      appareil.puissance + " W",
-      appareil.duree + " h"
-    ];
-
-    valeurs.forEach(function(valeur) {
-      const cellule = document.createElement("td");
-      cellule.textContent = valeur;
-      ligne.appendChild(cellule);
-    });
-
-    const celluleAction = document.createElement("td");
-    const bouton = document.createElement("button");
-
-    bouton.textContent = "Supprimer";
-    bouton.className = "delete";
-    bouton.dataset.index = index;
-
-    celluleAction.appendChild(bouton);
-    ligne.appendChild(celluleAction);
-    liste.appendChild(ligne);
-  });
-}
-
-// Supprimer un appareil
-document.getElementById("liste").addEventListener(
-  "click",
-  function(event) {
-
-    if (event.target.matches(".delete")) {
-
-      const index = Number(event.target.dataset.index);
-
-      appareils.splice(index, 1);
-
-      afficherListe();
-      analyser();
-    }
-  }
-);
-
-// Analyser la consommation
-function analyser() {
-
-  const limite = Number(
-    document.getElementById("limite").value
-  );
-
-  if (!Number.isFinite(limite) || limite <= 0) {
-    alert("Veuillez entrer une limite supérieure à zéro.");
+  if (appareils.length === 0) {
+    zone.textContent = "Aucun appareil ajouté.";
     return;
   }
 
+  zone.innerHTML = appareils.map((appareil, index) => `
+    <div class="appareil">
+      <strong>${texteSecurise(appareil.nom)}</strong>
+      <p>Puissance : ${nombre(appareil.puissance)} W</p>
+      <p>Durée quotidienne : ${nombre(appareil.duree)} heure(s)</p>
+      <p>Tarif : ${nombre(appareil.tarif)} FCFA/kWh</p>
+      <p>Pages horaires :
+        ${appareil.pagesHoraires.map(page =>
+          texteSecurise(page.debut) + " à " +
+          texteSecurise(page.fin)
+        ).join(" ; ")}
+      </p>
+      <button type="button" class="danger small"
+        data-supprimer-appareil="${index}">
+        Supprimer l'appareil
+      </button>
+    </div>
+  `).join("");
+}
+
+function supprimerAppareil(index) {
+  if (index < 0 || index >= appareils.length) return;
+
+  appareils.splice(index, 1);
+  afficherListeAppareils();
+  analyser();
+}
+
+/* CALCULS */
+
+function calculerTotaux() {
   let puissanceTotale = 0;
   let energieTotale = 0;
   let coutTotal = 0;
 
-  appareils.forEach(function(appareil) {
+  const details = appareils.map(appareil => {
+    const energie = appareil.puissance *
+      appareil.duree / 1000;
 
-    const energie =
-      appareil.puissance * appareil.duree / 1000;
+    const cout = energie * appareil.tarif;
 
     puissanceTotale += appareil.puissance;
     energieTotale += energie;
-    coutTotal += energie * appareil.tarif;
+    coutTotal += cout;
+
+    return {
+      nom: appareil.nom,
+      puissance: appareil.puissance,
+      duree: appareil.duree,
+      tarif: appareil.tarif,
+      energie,
+      cout,
+      pagesHoraires: appareil.pagesHoraires
+    };
   });
 
-  const energieMensuelle = energieTotale * 30;
-  const coutMensuel = coutTotal * 30;
+  return {
+    puissanceTotale,
+    energieTotale,
+    coutTotal,
+    energieMensuelle: energieTotale * 30,
+    coutMensuel: coutTotal * 30,
+    details
+  };
+}
 
-  // Affichage des résultats
-  document.getElementById("nombre").textContent =
-    appareils.length;
+function actualiserTableau() {
+  const totaux = calculerTotaux();
 
-  document.getElementById("totalPuissance").textContent =
-    formatNombre(puissanceTotale) + " W";
+  $("nombreAppareils").textContent = appareils.length;
+  $("puissanceTotale").textContent =
+    nombre(totaux.puissanceTotale) + " W";
+  $("energieTotale").textContent =
+    nombre(totaux.energieTotale) + " kWh";
+  $("coutTotal").textContent =
+    nombre(totaux.coutTotal) + " FCFA";
+  $("energieMensuelle").textContent =
+    nombre(totaux.energieMensuelle) + " kWh";
+  $("coutMensuel").textContent =
+    nombre(totaux.coutMensuel) + " FCFA";
 
-  document.getElementById("energieJour").textContent =
-    formatNombre(energieTotale) + " kWh";
+  return totaux;
+}
 
-  document.getElementById("coutJour").textContent =
-    formatNombre(coutTotal) + " FCFA";
+/* DIAGNOSTIC */
 
-  document.getElementById("energieMois").textContent =
-    formatNombre(energieMensuelle) + " kWh";
-
-  document.getElementById("coutMois").textContent =
-    formatNombre(coutMensuel) + " FCFA";
-
-  // Surveillance
-  const alerte = document.getElementById("alerte");
-  const diagnostic = document.getElementById("diagnostic");
-
-  const conseils =
-    document.getElementById("conseilsPersonnalises");
-
-  conseils.replaceChildren();
+function analyser() {
+  const totaux = actualiserTableau();
+  const zone = $("diagnostic");
+  const limite = Number($("limiteEnergie").value);
 
   if (appareils.length === 0) {
-
-    alerte.textContent = "En attente d'une analyse.";
-    alerte.className = "normal";
-
-    diagnostic.textContent =
-      "Ajoutez au moins un appareil pour obtenir des résultats.";
-
+    zone.innerHTML = `
+      <div class="message">
+        Ajoutez des appareils pour obtenir une analyse énergétique.
+      </div>
+    `;
     return;
   }
 
-  if (energieTotale > limite) {
+  if (!Number.isFinite(limite) || limite <= 0) {
+    zone.innerHTML = `
+      <div class="message error">
+        Veuillez définir une limite supérieure à zéro.
+      </div>
+    `;
+    return;
+  }
 
-    alerte.textContent =
-      "⚠️ CONSOMMATION EXCESSIVE DÉTECTÉE";
+  const depassement = totaux.energieTotale > limite;
 
-    alerte.className = "danger";
+  let contenu = `
+    <div class="message ${depassement ? "warning" : ""}">
+      <strong>Résultat de l'analyse</strong>
+      <p>Consommation quotidienne :
+        ${nombre(totaux.energieTotale)} kWh
+      </p>
+      <p>Limite fixée : ${nombre(limite)} kWh</p>
+      <p>Coût quotidien estimé :
+        ${nombre(totaux.coutTotal)} FCFA
+      </p>
+      <p>
+        ${depassement
+          ? "Attention : votre consommation dépasse la limite définie."
+          : "Votre consommation reste dans la limite définie."}
+      </p>
+    </div>
+  `;
 
-    diagnostic.textContent =
-      "La consommation quotidienne dépasse la limite de " +
-      formatNombre(limite) + " kWh.";
+  const classement = [...totaux.details].sort(
+    (a, b) => b.energie - a.energie
+  );
 
-    ajouterConseil(
-      "Votre consommation dépasse votre limite. Réduisez l'utilisation des appareils."
-    );
-
+  if (depassement) {
+    contenu += `
+      <div class="message warning">
+        <strong>Appareils les plus consommateurs</strong>
+        <p>Voici les appareils qui contribuent le plus à votre consommation :</p>
+        <ol>
+          ${classement.map(appareil => `
+            <li>
+              ${texteSecurise(appareil.nom)} :
+              ${nombre(appareil.energie)} kWh par jour
+            </li>
+          `).join("")}
+        </ol>
+        <p>Vous pouvez examiner leurs horaires d'utilisation et réduire leur durée si cela est possible.</p>
+      </div>
+    `;
   } else {
-
-    alerte.textContent =
-      "✅ CONSOMMATION DANS LA LIMITE";
-
-    alerte.className = "normal";
-
-    diagnostic.textContent =
-      "Votre consommation respecte la limite quotidienne définie.";
+    contenu += `
+      <div class="message">
+        <strong>Conseil :</strong>
+        continuez à surveiller vos appareils et évitez de les laisser fonctionner inutilement.
+      </div>
+    `;
   }
 
-  if (energieTotale === 0) {
-    ajouterConseil(
-      "La durée d'utilisation est nulle. Vérifiez les données saisies."
-    );
+  zone.innerHTML = contenu;
+}
+
+/* HISTORIQUE */
+
+function enregistrerHistorique() {
+  if (appareils.length === 0) {
+    alert("Ajoutez au moins un appareil avant d'enregistrer une analyse.");
+    return;
   }
 
-  appareils.forEach(function(appareil) {
+  const totaux = calculerTotaux();
+  const historique = lireHistorique();
 
-    if (appareil.duree >= 8) {
-      ajouterConseil(
-        "Le " + appareil.nom +
-        " fonctionne longtemps. Essayez de réduire sa durée d'utilisation."
-      );
-    }
-
-    if (appareil.puissance >= 1000) {
-      ajouterConseil(
-        "Le " + appareil.nom +
-        " est puissant. Utilisez-le uniquement lorsque nécessaire."
-      );
-    }
+  historique.unshift({
+    date: new Date().toLocaleString("fr-FR"),
+    nombre: appareils.length,
+    energie: totaux.energieTotale,
+    cout: totaux.coutTotal,
+    appareils: totaux.details
   });
 
-  if (conseils.childElementCount === 0) {
-    ajouterConseil(
-      "Bravo ! Continuez à adopter de bonnes habitudes énergétiques."
+  try {
+    localStorage.setItem(
+      "historiqueEco",
+      JSON.stringify(historique)
     );
+
+    afficherHistorique();
+    alert("Analyse enregistrée avec succès !");
+  } catch (erreur) {
+    alert("Impossible d'enregistrer l'historique.");
   }
 }
 
-// Ajouter un conseil personnalisé
-function ajouterConseil(texte) {
+function afficherHistorique() {
+  const historique = lireHistorique();
+  const zone = $("historique");
 
-  const conseils =
-    document.getElementById("conseilsPersonnalises");
+  if (historique.length === 0) {
+    zone.textContent = "Aucun historique enregistré.";
+    return;
+  }
 
-  const paragraphe = document.createElement("p");
+  zone.innerHTML = historique.map((element, index) => `
+    <div class="history-item">
+      <strong>Analyse du ${texteSecurise(element.date || "Date inconnue")}</strong>
+      <p>Appareils : ${nombre(Number(element.nombre) || 0)}</p>
+      <p>Énergie : ${nombre(Number(element.energie) || 0)} kWh</p>
+      <p>Coût : ${nombre(Number(element.cout) || 0)} FCFA</p>
 
-  paragraphe.className = "special";
-  paragraphe.textContent = "💡 " + texte;
+      <button type="button" class="secondary small"
+        data-details-historique="${index}">
+        Voir les détails
+      </button>
 
-  conseils.appendChild(paragraphe);
+      <button type="button" class="danger small"
+        data-supprimer-historique="${index}">
+        Supprimer
+      </button>
+
+      <div id="details-${index}"></div>
+    </div>
+  `).join("");
 }
 
-// Réinitialiser
+function voirDetailsHistorique(index) {
+  const historique = lireHistorique();
+  const element = historique[index];
+
+  if (!element) return;
+
+  const zone = $("details-" + index);
+
+  if (!zone) return;
+
+  if (!Array.isArray(element.appareils) ||
+      element.appareils.length === 0) {
+    zone.textContent =
+      "Les détails ne sont pas disponibles pour cette ancienne analyse.";
+    return;
+  }
+
+  zone.innerHTML = `
+    <div class="details">
+      <strong>Détails des appareils</strong>
+      ${element.appareils.map(appareil => `
+        <p><strong>${texteSecurise(appareil.nom)}</strong></p>
+        <p>Puissance : ${nombre(Number(appareil.puissance) || 0)} W</p>
+        <p>Durée : ${nombre(Number(appareil.duree) || 0)} heures</p>
+        <p>Consommation : ${nombre(Number(appareil.energie) || 0)} kWh</p>
+        <p>Coût : ${nombre(Number(appareil.cout) || 0)} FCFA</p>
+        <p>Pages horaires :
+          ${Array.isArray(appareil.pagesHoraires)
+            ? appareil.pagesHoraires.map(page =>
+                texteSecurise(page.debut) + " à " +
+                texteSecurise(page.fin)
+              ).join(", ")
+            : "Non disponibles"}
+        </p>
+      `).join("")}
+    </div>
+  `;
+}
+
+function supprimerUnHistorique(index) {
+  const historique = lireHistorique();
+
+  if (index < 0 || index >= historique.length) return;
+
+  if (!confirm("Voulez-vous vraiment supprimer cette analyse ?")) {
+    return;
+  }
+
+  historique.splice(index, 1);
+
+  try {
+    localStorage.setItem(
+      "historiqueEco",
+      JSON.stringify(historique)
+    );
+    afficherHistorique();
+  } catch (erreur) {
+    alert("La suppression n'a pas pu être enregistrée.");
+  }
+}
+
+function effacerHistorique() {
+  const historique = lireHistorique();
+
+  if (historique.length === 0) {
+    alert("L'historique est déjà vide.");
+    return;
+  }
+
+  if (!confirm(
+    "Voulez-vous vraiment effacer tout l'historique ? Cette action est irréversible."
+  )) {
+    return;
+  }
+
+  try {
+    localStorage.setItem("historiqueEco", JSON.stringify([]));
+    afficherHistorique();
+    alert("Tout l'historique a été effacé.");
+  } catch (erreur) {
+    alert("Impossible d'effacer l'historique.");
+  }
+}
+
+/* RÉINITIALISATION */
+
 function reinitialiser() {
+  if (!confirm(
+    "Voulez-vous réinitialiser la liste des appareils ? L'historique sera conservé."
+  )) {
+    return;
+  }
 
   appareils = [];
+  pagesHorairesEnCours = [];
 
-  afficherListe();
-
-  nomInput.value = "Ventilateur";
-  puissanceInput.value = 300;
-  dureeInput.value = 5;
-  tarifInput.value = 100;
-
-  document.getElementById("limite").value = 10;
-
+  afficherListeAppareils();
+  afficherPagesHoraires();
   analyser();
+
+  puissanceInput.value = 75;
+  tarifInput.value = 100;
+  nomInput.value = "Ventilateur";
+  nomPersonnaliseInput.value = "";
+  uniteInput.value = "1";
+
+  $("zoneNomPersonnalise").classList.add("hidden");
+  afficherMessage("messageAjout", "La liste des appareils a été réinitialisée.");
 }
 
-// Boutons
-document.getElementById("ajouter").addEventListener(
-  "click",
-  ajouterAppareil
+/* CONNEXION DES BOUTONS */
+
+nomInput.addEventListener("change", function() {
+  $("zoneNomPersonnalise").classList.toggle(
+    "hidden",
+    nomInput.value !== "Autre"
+  );
+});
+
+$("ajouterPageHoraire").addEventListener(
+  "click", ajouterPageHoraire
 );
 
-document.getElementById("analyser").addEventListener(
-  "click",
-  analyser
+$("ajouterAppareil").addEventListener(
+  "click", ajouterAppareil
 );
 
-document.getElementById("reinitialiser").addEventListener(
-  "click",
-  reinitialiser
+$("analyser").addEventListener(
+  "click", analyser
 );
 
-// Initialisation
-afficherListe();
+$("enregistrerHistorique").addEventListener(
+  "click", enregistrerHistorique
+);
+
+$("effacerHistorique").addEventListener(
+  "click", effacerHistorique
+);
+
+$("reinitialiser").addEventListener(
+  "click", reinitialiser
+);
+
+$("listePagesHoraires").addEventListener("click", function(event) {
+  const bouton = event.target.closest("[data-supprimer-page]");
+
+  if (!bouton) return;
+
+  const index = Number(bouton.dataset.supprimerPage);
+
+  pagesHorairesEnCours.splice(index, 1);
+  afficherPagesHoraires();
+});
+
+$("listeAppareils").addEventListener("click", function(event) {
+  const bouton = event.target.closest("[data-supprimer-appareil]");
+
+  if (!bouton) return;
+
+  supprimerAppareil(Number(bouton.dataset.supprimerAppareil));
+});
+
+$("historique").addEventListener("click", function(event) {
+  const boutonDetails = event.target.closest("[data-details-historique]");
+  const boutonSupprimer = event.target.closest("[data-supprimer-historique]");
+
+  if (boutonDetails) {
+    voirDetailsHistorique(
+      Number(boutonDetails.dataset.detailsHistorique)
+    );
+  }
+
+  if (boutonSupprimer) {
+    supprimerUnHistorique(
+      Number(boutonSupprimer.dataset.supprimerHistorique)
+    );
+  }
+});
+
+/* AFFICHAGE INITIAL */
+
+afficherListeAppareils();
+afficherPagesHoraires();
 analyser();
+afficherHistorique();
 
 </script>
+
 <script>
+/* SERVICE WORKER */
+
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js");
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("./sw.js")
+      .catch(function(erreur) {
+        console.log(
+          "Service Worker non enregistré :",
+          erreur
+        );
+      });
   });
 }
 </script>
+
 </body>
-</html>
+</html> 
+
