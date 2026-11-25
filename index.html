@@ -380,7 +380,7 @@ footer {
 
 /* DONNÉES PRINCIPALES */
 
-let appareils = [];
+let appareils = JSON.parse(localStorage.getItem("appareilsEco")) || [];
 let pagesHorairesEnCours = [];
 
 const $ = id => document.getElementById(id);
@@ -551,6 +551,7 @@ function ajouterAppareil() {
   }
 
   appareils.push({
+    localStorage.setItem("appareilsEco", JSON.stringify(appareils));
     id: Date.now() + Math.random(),
     nom,
     puissance,
@@ -609,6 +610,7 @@ function supprimerAppareil(index) {
   if (index < 0 || index >= appareils.length) return;
 
   appareils.splice(index, 1);
+  localStorage.setItem("appareilsEco", JSON.stringify(appareils));
   afficherListeAppareils();
   analyser();
 }
@@ -1016,3 +1018,4 @@ if ("serviceWorker" in navigator) {
 </body>
 </html> 
 
+ 
