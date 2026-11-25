@@ -12,69 +12,205 @@
   box-sizing: border-box;
 }
 
+:root {
+  --vert: #087f5b;
+  --vert-clair: #13a477;
+  --fond: #f1f7f2;
+  --texte: #20332b;
+  --blanc: #ffffff;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f1f7f4;
-  color: #20332b;
+  background: var(--fond);
+  color: var(--texte);
 }
 
+/* EN-TÊTE */
+
 header {
-  background: linear-gradient(135deg, #087f5b, #13a477);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #075b43, #13a477);
   color: white;
   text-align: center;
-  padding: 28px 15px;
+  padding: 35px 15px 42px;
+  border-radius: 0 0 28px 28px;
 }
 
 header h1 {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-size: 30px;
 }
 
 header p {
   margin: 0;
+  font-size: 15px;
 }
+
+.plante {
+  position: absolute;
+  font-size: 55px;
+  opacity: .75;
+  pointer-events: none;
+}
+
+.plante.gauche {
+  left: 12px;
+  bottom: 5px;
+  transform: rotate(-15deg);
+}
+
+.plante.droite {
+  right: 12px;
+  top: 8px;
+  transform: rotate(15deg);
+}
+
+.sous-titre {
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: .85;
+}
+
+/* NAVIGATION */
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 10px;
+  max-width: 950px;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+.onglet {
+  border: 1px solid #d5e8dc;
+  background: white;
+  color: #426353;
+  padding: 12px 17px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0;
+  transition: .2s;
+}
+
+.onglet.actif {
+  background: var(--vert);
+  color: white;
+  border-color: var(--vert);
+}
+
+.onglet:hover {
+  background: #e1f3e8;
+  color: var(--vert);
+}
+
+.onglet.actif:hover {
+  background: var(--vert);
+  color: white;
+}
+
+/* CONTENU */
 
 main {
   max-width: 950px;
   margin: auto;
-  padding: 15px;
+  padding: 12px 15px 30px;
+}
+
+.page {
+  display: none;
+  animation: apparition .25s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes apparition {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .card {
   background: white;
   padding: 20px;
   margin: 16px 0;
-  border-radius: 15px;
-  box-shadow: 0 3px 12px #0000000d;
+  border-radius: 17px;
+  box-shadow: 0 4px 15px #164b3010;
+  border: 1px solid #e6efe8;
 }
 
 h2 {
-  color: #087f5b;
+  color: var(--vert);
   font-size: 21px;
   margin-top: 0;
 }
+
+h3 {
+  color: #287557;
+}
+
+.intro {
+  line-height: 1.6;
+  color: #63766b;
+}
+
+.plante-deco {
+  background: #eaf6ed;
+  border-radius: 15px;
+  padding: 15px;
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #37684e;
+}
+
+.plante-deco .emoji {
+  font-size: 35px;
+}
+
+/* FORMULAIRES */
 
 label {
   display: block;
   margin: 13px 0 6px;
   font-weight: bold;
+  color: #345747;
 }
 
 input, select {
   width: 100%;
   padding: 12px;
   border: 1px solid #cbd8d0;
-  border-radius: 8px;
+  border-radius: 9px;
   font-size: 16px;
   background: white;
+  color: var(--texte);
+}
+
+input:focus, select:focus {
+  outline: 2px solid #9bd7b4;
+  border-color: var(--vert);
 }
 
 button {
   border: none;
   padding: 12px 16px;
-  border-radius: 8px;
-  background: #087f5b;
+  border-radius: 9px;
+  background: var(--vert);
   color: white;
   font-size: 15px;
   font-weight: bold;
@@ -114,19 +250,29 @@ button.full {
   gap: 12px;
 }
 
+/* STATISTIQUES */
+
 .stat {
   background: #eaf7f0;
-  border-radius: 12px;
-  padding: 15px;
+  border-radius: 13px;
+  padding: 16px;
   text-align: center;
+  border: 1px solid #d9eee0;
+}
+
+.stat span {
+  font-size: 13px;
+  color: #527061;
 }
 
 .stat strong {
   display: block;
   font-size: 22px;
-  color: #087f5b;
-  margin-top: 8px;
+  color: var(--vert);
+  margin-top: 9px;
 }
+
+/* APPAREILS ET HORAIRES */
 
 .horaire {
   background: #f0f7f3;
@@ -141,11 +287,12 @@ button.full {
   border-radius: 12px;
   padding: 14px;
   margin: 12px 0;
+  background: #fcfefc;
 }
 
 .history-item {
   border: 1px solid #dce8e0;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 13px;
   margin: 12px 0;
 }
@@ -173,23 +320,46 @@ button.full {
   background: #ffe8e8;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 12px;
+.lcd {
+  background: #eaf6ed;
+  border: 1px solid #cde5d4;
+  padding: 15px;
+  border-radius: 13px;
+  margin-bottom: 20px;
 }
 
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #e1e8e3;
-  text-align: left;
+.lcd p {
+  margin-bottom: 0;
+  color: #587163;
 }
+
+.separation {
+  border: 0;
+  border-top: 1px solid #e1e8e3;
+  margin: 22px 0;
+}
+
+.empty {
+  text-align: center;
+  padding: 25px 10px;
+  color: #789083;
+}
+
+/* PIED DE PAGE */
 
 footer {
   text-align: center;
-  padding: 25px;
+  padding: 28px 15px;
   color: #65756c;
+  font-size: 13px;
 }
+
+footer .feuilles {
+  font-size: 25px;
+  margin-bottom: 8px;
+}
+
+/* MOBILE */
 
 @media(max-width: 550px) {
   .grid {
@@ -204,8 +374,19 @@ footer {
     padding: 15px;
   }
 
-  table {
+  .navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .onglet {
+    padding: 12px 5px;
     font-size: 13px;
+  }
+
+  .plante {
+    font-size: 39px;
   }
 }
 </style>
@@ -214,169 +395,272 @@ footer {
 <body>
 
 <header>
+  <div class="plante gauche">🪴</div>
+  <div class="plante droite">🌿</div>
+
   <h1>🌱 ÉcoÉnergie</h1>
   <p>Suivez et maîtrisez votre consommation électrique</p>
+  <div class="sous-titre">ÉCONOMISER • PROTÉGER • PRÉSERVER</div>
 </header>
+
+<nav class="navigation">
+  <button class="onglet actif" data-page="accueil">🏠 Accueil</button>
+  <button class="onglet" data-page="appareils">⚡ Appareils</button>
+  <button class="onglet" data-page="surveillance">🎯 Surveillance</button>
+  <button class="onglet" data-page="historique">📚 Historique</button>
+</nav>
 
 <main>
 
-<section class="card">
-  <h2>📊 Tableau de bord</h2>
+<!-- ACCUEIL -->
 
-  <div class="grid">
-    <div class="stat">
-      Nombre d'appareils
-      <strong id="nombreAppareils">0</strong>
+<section class="page active" id="accueil">
+
+  <section class="card">
+    <h2>🌿 Tableau de bord</h2>
+    <p class="intro">
+      Bienvenue sur ÉcoÉnergie ! Retrouvez ici un aperçu
+      de votre consommation électrique.
+    </p>
+
+    <div class="grid">
+      <div class="stat">
+        <span>⚡ Nombre d'appareils</span>
+        <strong id="nombreAppareils">0</strong>
+      </div>
+
+      <div class="stat">
+        <span>🔌 Puissance totale</span>
+        <strong id="puissanceTotale">0 W</strong>
+      </div>
+
+      <div class="stat">
+        <span>📊 Consommation journalière</span>
+        <strong id="energieTotale">0 kWh</strong>
+      </div>
+
+      <div class="stat">
+        <span>💰 Coût journalier</span>
+        <strong id="coutTotal">0 FCFA</strong>
+      </div>
+
+      <div class="stat">
+        <span>📅 Consommation mensuelle estimée</span>
+        <strong id="energieMensuelle">0 kWh</strong>
+      </div>
+
+      <div class="stat">
+        <span>💵 Coût mensuel estimé</span>
+        <strong id="coutMensuel">0 FCFA</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🔌 Connexion de l'écran LCD</h2>
+
+    <div class="lcd">
+      <strong>📟 Écran de contrôle</strong>
+      <p id="etatLCD">Écran LCD non connecté.</p>
+      <button id="connecterLCD" type="button" class="full">
+        Connecter l'écran LCD
+      </button>
     </div>
 
-    <div class="stat">
-      Puissance totale
-      <strong id="puissanceTotale">0 W</strong>
+    <div class="plante-deco">
+      <span class="emoji">🌱</span>
+      <div>
+        <strong>Un geste pour la planète !</strong>
+        <p>Maîtrisez votre consommation pour préserver les ressources naturelles.</p>
+      </div>
     </div>
 
-    <div class="stat">
-      Consommation journalière
-      <strong id="energieTotale">0 kWh</strong>
-    </div>
+    <button class="full" type="button" onclick="changerPage('appareils')">
+      + Ajouter un appareil
+    </button>
+  </section>
 
-    <div class="stat">
-      Coût journalier
-      <strong id="coutTotal">0 FCFA</strong>
-    </div>
-
-    <div class="stat">
-      Consommation mensuelle estimée
-      <strong id="energieMensuelle">0 kWh</strong>
-    </div>
-
-    <div class="stat">
-      Coût mensuel estimé
-      <strong id="coutMensuel">0 FCFA</strong>
-    </div>
-  </div>
 </section>
 
-<section class="card">
-  <button id="connecterLCD" type="button">
-  Connecter l'écran LCD
-</button>
-<p id="etatLCD">Écran LCD non connecté</p>
-  <h2>➕ Ajouter un appareil</h2>
+<!-- APPAREILS -->
 
-  <label for="nomAppareil">Nom de l'appareil</label>
-  <select id="nomAppareil">
-    <option>Ventilateur</option>
-    <option>Télévision</option>
-    <option>Lampe</option>
-    <option>Fer à repasser</option>
-    <option>Climatiseur</option>
-    <option>Ordinateur</option>
-    <option>Réfrigérateur</option>
-    <option>Autre</option>
-  </select>
+<section class="page" id="appareils">
 
-  <div id="zoneNomPersonnalise" class="hidden">
-    <label for="nomPersonnalise">Nom personnalisé</label>
-    <input id="nomPersonnalise" type="text"
-      placeholder="Nom de l'appareil">
-  </div>
+  <section class="card">
+    <h2>➕ Ajouter un appareil</h2>
+    <p class="intro">
+      Enregistrez vos appareils pour calculer leur consommation électrique.
+    </p>
 
-  <label for="puissance">Puissance électrique</label>
-  <div class="grid">
-    <input id="puissance" type="number" min="0.01"
-      step="any" value="75" placeholder="Puissance">
-
-    <select id="unitePuissance">
-      <option value="1">Watt (W)</option>
-      <option value="1000">Kilowatt (kW)</option>
-      <option value="1000000">Mégawatt (MW)</option>
+    <label for="nomAppareil">Nom de l'appareil</label>
+    <select id="nomAppareil">
+      <option>Ventilateur</option>
+      <option>Télévision</option>
+      <option>Lampe</option>
+      <option>Fer à repasser</option>
+      <option>Climatiseur</option>
+      <option>Ordinateur</option>
+      <option>Réfrigérateur</option>
+      <option>Autre</option>
     </select>
-  </div>
 
-  <label for="tarif">Tarif du kWh (FCFA)</label>
-  <input id="tarif" type="number" min="0"
-    step="any" value="100">
+    <div id="zoneNomPersonnalise" class="hidden">
+      <label for="nomPersonnalise">Nom personnalisé</label>
+      <input id="nomPersonnalise" type="text"
+        placeholder="Nom de l'appareil">
+    </div>
 
-  <hr style="border:0;border-top:1px solid #e1e8e3;margin:22px 0;">
+    <label for="puissance">Puissance électrique</label>
+    <div class="grid">
+      <input id="puissance" type="number" min="0.01"
+        step="any" value="75" placeholder="Puissance">
 
-  <h2>🕒 Pages horaires</h2>
-  <p>Ajoutez les différentes périodes d'utilisation de cet appareil.</p>
+      <select id="unitePuissance">
+        <option value="1">Watt (W)</option>
+        <option value="1000">Kilowatt (kW)</option>
+        <option value="1000000">Mégawatt (MW)</option>
+      </select>
+    </div>
 
-  <label for="heureDebut">Heure de début</label>
-  <input id="heureDebut" type="time" value="08:00">
+    <label for="tarif">Tarif du kWh (FCFA)</label>
+    <input id="tarif" type="number" min="0"
+      step="any" value="100">
 
-  <label for="heureFin">Heure de fin</label>
-  <input id="heureFin" type="time" value="10:00">
+    <hr class="separation">
 
-  <button type="button" class="secondary full"
-    id="ajouterPageHoraire">
-    + Ajouter une page horaire
-  </button>
+    <h2>🕒 Pages horaires</h2>
+    <p class="intro">
+      Ajoutez les différentes périodes d'utilisation de cet appareil.
+    </p>
 
-  <div id="listePagesHoraires"></div>
+    <label for="heureDebut">Heure de début</label>
+    <input id="heureDebut" type="time" value="08:00">
 
-  <button type="button" class="full" id="ajouterAppareil">
-    Ajouter l'appareil
-  </button>
+    <label for="heureFin">Heure de fin</label>
+    <input id="heureFin" type="time" value="10:00">
 
-  <div id="messageAjout" aria-live="polite"></div>
+    <button type="button" class="secondary full"
+      id="ajouterPageHoraire">
+      + Ajouter une page horaire
+    </button>
+
+    <div id="listePagesHoraires"></div>
+
+    <button type="button" class="full" id="ajouterAppareil">
+      Ajouter l'appareil
+    </button>
+
+    <div id="messageAjout" aria-live="polite"></div>
+  </section>
+
+  <section class="card">
+    <h2>⚡ Mes appareils enregistrés</h2>
+    <div id="listeAppareils">
+      Aucun appareil ajouté.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🔄 Réinitialisation</h2>
+    <p class="intro">
+      Cette action vide la liste des appareils actuels,
+      mais conserve l'historique enregistré.
+    </p>
+
+    <button type="button" class="danger full" id="reinitialiser">
+      Réinitialiser la liste des appareils
+    </button>
+  </section>
+
 </section>
 
-<section class="card">
-  <h2>⚡ Mes appareils</h2>
-  <div id="listeAppareils">
-    Aucun appareil ajouté.
-  </div>
+<!-- SURVEILLANCE -->
+
+<section class="page" id="surveillance">
+
+  <section class="card">
+    <h2>🎯 Surveillance énergétique</h2>
+    <p class="intro">
+      Fixez une limite pour mieux contrôler votre consommation électrique.
+    </p>
+
+    <label for="limiteEnergie">
+      Limite de consommation journalière (kWh)
+    </label>
+
+    <input id="limiteEnergie" type="number"
+      min="0" step="any" value="5">
+
+    <button type="button" class="full" id="analyser">
+      Analyser ma consommation
+    </button>
+
+    <div id="diagnostic" aria-live="polite"></div>
+  </section>
+
+  <section class="card">
+    <h2>🌿 Conseils écologiques</h2>
+
+    <div class="plante-deco">
+      <span class="emoji">💡</span>
+      <div>
+        <strong>Éteignez les lumières inutiles</strong>
+        <p>Évitez de laisser les lampes allumées dans les pièces inoccupées.</p>
+      </div>
+    </div>
+
+    <div class="plante-deco">
+      <span class="emoji">🔌</span>
+      <div>
+        <strong>Débranchez les appareils</strong>
+        <p>Débranchez les équipements qui ne sont pas utilisés.</p>
+      </div>
+    </div>
+
+    <div class="plante-deco">
+      <span class="emoji">🌍</span>
+      <div>
+        <strong>Préservons notre planète</strong>
+        <p>Une consommation responsable contribue à protéger l'environnement.</p>
+      </div>
+    </div>
+  </section>
+
 </section>
 
-<section class="card">
-  <h2>🎯 Surveillance énergétique</h2>
+<!-- HISTORIQUE -->
 
-  <label for="limiteEnergie">
-    Limite de consommation journalière (kWh)
-  </label>
+<section class="page" id="historique">
 
-  <input id="limiteEnergie" type="number"
-    min="0" step="any" value="5">
+  <section class="card">
+    <h2>📚 Historique des analyses</h2>
+    <p class="intro">
+      Retrouvez les résultats de vos anciennes analyses.
+    </p>
 
-  <button type="button" class="full" id="analyser">
-    Analyser ma consommation
-  </button>
+    <button type="button" class="full" id="enregistrerHistorique">
+      Enregistrer cette analyse
+    </button>
 
-  <div id="diagnostic" aria-live="polite"></div>
-</section>
+    <div id="historique">
+      Aucun historique enregistré.
+    </div>
 
-<section class="card">
-  <h2>📚 Historique des analyses</h2>
+    <button type="button" class="danger full"
+      id="effacerHistorique">
+      Effacer tout l'historique
+    </button>
+  </section>
 
-  <button type="button" class="full" id="enregistrerHistorique">
-    Enregistrer cette analyse
-  </button>
-
-  <div id="historique">
-    Aucun historique enregistré.
-  </div>
-
-  <button type="button" class="danger full"
-    id="effacerHistorique">
-    Effacer tout l'historique
-  </button>
-</section>
-
-<section class="card">
-  <h2>🔄 Réinitialisation</h2>
-  <p>Cette action vide la liste des appareils actuels, mais conserve l'historique enregistré.</p>
-
-  <button type="button" class="danger full"
-    id="reinitialiser">
-    Réinitialiser la liste des appareils
-  </button>
 </section>
 
 </main>
 
 <footer>
-  ÉcoÉnergie – Consommons mieux, économisons l'énergie 🌍
+  <div class="feuilles">🌿 🪴 🌱</div>
+  <strong>ÉcoÉnergie</strong>
+  <p>Consommons mieux, économisons l'énergie.</p>
+  <p>🌍 Ensemble, protégeons notre planète.</p>
 </footer>
 
 <script>
@@ -384,8 +668,18 @@ footer {
 
 /* DONNÉES PRINCIPALES */
 
-let appareils = JSON.parse(localStorage.getItem("appareilsEco")) || [];
+function chargerDonnees(cle) {
+  try {
+    const donnees = JSON.parse(localStorage.getItem(cle) || "[]");
+    return Array.isArray(donnees) ? donnees : [];
+  } catch (erreur) {
+    return [];
+  }
+}
+
+let appareils = chargerDonnees("appareilsEco");
 let pagesHorairesEnCours = [];
+let port = null;
 
 const $ = id => document.getElementById(id);
 
@@ -396,6 +690,14 @@ const tarifInput = $("tarif");
 const uniteInput = $("unitePuissance");
 const heureDebutInput = $("heureDebut");
 const heureFinInput = $("heureFin");
+
+function sauvegarderAppareils() {
+  try {
+    localStorage.setItem("appareilsEco", JSON.stringify(appareils));
+  } catch (erreur) {
+    alert("Impossible de sauvegarder les appareils.");
+  }
+}
 
 function nombre(valeur) {
   return Number(valeur).toLocaleString("fr-FR", {
@@ -414,15 +716,7 @@ function texteSecurise(texte) {
 }
 
 function lireHistorique() {
-  try {
-    const donnees = JSON.parse(
-      localStorage.getItem("historiqueEco") || "[]"
-    );
-
-    return Array.isArray(donnees) ? donnees : [];
-  } catch (erreur) {
-    return [];
-  }
+  return chargerDonnees("historiqueEco");
 }
 
 function afficherMessage(id, message, type = "") {
@@ -430,6 +724,29 @@ function afficherMessage(id, message, type = "") {
   zone.className = type ? "message " + type : "message";
   zone.textContent = message;
 }
+
+/* ONGLET */
+
+function changerPage(nom) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.toggle("active", page.id === nom);
+  });
+
+  document.querySelectorAll(".onglet").forEach(bouton => {
+    bouton.classList.toggle(
+      "actif",
+      bouton.dataset.page === nom
+    );
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll(".onglet").forEach(bouton => {
+  bouton.addEventListener("click", () => {
+    changerPage(bouton.dataset.page);
+  });
+});
 
 /* PAGES HORAIRES */
 
@@ -480,8 +797,6 @@ function ajouterPageHoraire() {
     return;
   }
 
-  const nouvellePage = { debut, fin };
-
   const chevauchement = pagesHorairesEnCours.some(page =>
     minutes(debut) < minutes(page.fin) &&
     minutes(fin) > minutes(page.debut)
@@ -493,7 +808,8 @@ function ajouterPageHoraire() {
     return;
   }
 
-  pagesHorairesEnCours.push(nouvellePage);
+  pagesHorairesEnCours.push({ debut, fin });
+
   pagesHorairesEnCours.sort((a, b) =>
     minutes(a.debut) - minutes(b.debut)
   );
@@ -555,7 +871,6 @@ function ajouterAppareil() {
   }
 
   appareils.push({
-    localStorage.setItem("appareilsEco", JSON.stringify(appareils));
     id: Date.now() + Math.random(),
     nom,
     puissance,
@@ -566,6 +881,8 @@ function ajouterAppareil() {
       fin: page.fin
     }))
   });
+
+  sauvegarderAppareils();
 
   pagesHorairesEnCours = [];
 
@@ -578,6 +895,8 @@ function ajouterAppareil() {
   puissanceInput.value = 75;
   uniteInput.value = "1";
 
+  $("zoneNomPersonnalise").classList.add("hidden");
+
   afficherMessage("messageAjout",
     "Appareil ajouté avec succès !");
 }
@@ -586,18 +905,18 @@ function afficherListeAppareils() {
   const zone = $("listeAppareils");
 
   if (appareils.length === 0) {
-    zone.textContent = "Aucun appareil ajouté.";
+    zone.innerHTML = '<div class="empty">🌱<br>Aucun appareil ajouté.</div>';
     return;
   }
 
   zone.innerHTML = appareils.map((appareil, index) => `
     <div class="appareil">
-      <strong>${texteSecurise(appareil.nom)}</strong>
+      <strong>⚡ ${texteSecurise(appareil.nom)}</strong>
       <p>Puissance : ${nombre(appareil.puissance)} W</p>
       <p>Durée quotidienne : ${nombre(appareil.duree)} heure(s)</p>
       <p>Tarif : ${nombre(appareil.tarif)} FCFA/kWh</p>
       <p>Pages horaires :
-        ${appareil.pagesHoraires.map(page =>
+        ${(appareil.pagesHoraires || []).map(page =>
           texteSecurise(page.debut) + " à " +
           texteSecurise(page.fin)
         ).join(" ; ")}
@@ -614,7 +933,8 @@ function supprimerAppareil(index) {
   if (index < 0 || index >= appareils.length) return;
 
   appareils.splice(index, 1);
-  localStorage.setItem("appareilsEco", JSON.stringify(appareils));
+
+  sauvegarderAppareils();
   afficherListeAppareils();
   analyser();
 }
@@ -622,21 +942,6 @@ function supprimerAppareil(index) {
 /* CALCULS */
 
 function calculerTotaux() {
-  let port = null;
-  document.getElementById("connecterLCD").addEventListener("click", async () => {
-  try {
-    port = await navigator.serial.requestPort();
-    await port.open({ baudRate: 9600 });
-
-    document.getElementById("etatLCD").textContent =
-      "Écran LCD connecté !";
-
-    await actualiserTableau();
-  } catch (erreur) {
-    document.getElementById("etatLCD").textContent =
-      "Connexion impossible : " + erreur.message;
-  }
-});
   let puissanceTotale = 0;
   let energieTotale = 0;
   let coutTotal = 0;
@@ -658,7 +963,7 @@ function calculerTotaux() {
       tarif: appareil.tarif,
       energie,
       cout,
-      pagesHoraires: appareil.pagesHoraires
+      pagesHoraires: appareil.pagesHoraires || []
     };
   });
 
@@ -672,169 +977,106 @@ function calculerTotaux() {
   };
 }
 
-async function actualiserTableau() {
+function actualiserTableau() {
   const totaux = calculerTotaux();
 
   $("nombreAppareils").textContent = appareils.length;
   $("puissanceTotale").textContent =
-    nombre(totaux.puissanceTotale) + " W";
-  $("energieTotale").textContent =
-    nombre(totaux.energieTotale) + " kWh";
-  $("coutTotal").textContent =
-    nombre(totaux.coutTotal) + " FCFA";
-  $("energieMensuelle").textContent =
-    nombre(totaux.energieMensuelle) + " kWh";
-  $("coutMensuel").textContent =
-    nombre(totaux.coutMensuel) + " FCFA";
-  if (port && port.writable) {
-  const writer = port.writable.getWriter();
-  await writer.write(new TextEncoder().encode(
-    nombre(totaux.coutMensuel) + "\n"
-  ));
-  writer.releaseLock();
-}
+    nombre(total.puissance);
+  energieTotale.textContent = nombre(total.energie);
+coutTotal.textContent = nombre(total.cout);
 
-  return totaux;
-}
+const liste = document.getElementById("listeAppareils");
+liste.innerHTML = "";
 
-/* DIAGNOSTIC */
+appareils.forEach((appareil, index) => {
+  const ligne = document.createElement("div");
+  ligne.className = "appareil-item";
 
-async function analyser() {
-  const totaux = actualiserTableau();
-  const zone = $("diagnostic");
-  const limite = Number($("limiteEnergie").value);
-
-  if (appareils.length === 0) {
-    zone.innerHTML = `
-      <div class="message">
-        Ajoutez des appareils pour obtenir une analyse énergétique.
-      </div>
-    `;
-    return;
-  }
-
-  if (!Number.isFinite(limite) || limite <= 0) {
-    zone.innerHTML = `
-      <div class="message error">
-        Veuillez définir une limite supérieure à zéro.
-      </div>
-    `;
-    return;
-  }
-
-  const depassement = totaux.energieTotale > limite;
-
-  let contenu = `
-    <div class="message ${depassement ? "warning" : ""}">
-      <strong>Résultat de l'analyse</strong>
-      <p>Consommation quotidienne :
-        ${nombre(totaux.energieTotale)} kWh
-      </p>
-      <p>Limite fixée : ${nombre(limite)} kWh</p>
-      <p>Coût quotidien estimé :
-        ${nombre(totaux.coutTotal)} FCFA
-      </p>
-      <p>
-        ${depassement
-          ? "Attention : votre consommation dépasse la limite définie."
-          : "Votre consommation reste dans la limite définie."}
-      </p>
+  ligne.innerHTML = `
+    <div>
+      <strong>${texteSecurise(appareil.nom)}</strong>
+      <p>Puissance : ${nombre(appareil.puissance)} W</p>
+      <p>Durée : ${nombre(appareil.duree)} heures</p>
+      <p>Consommation : ${nombre(appareil.energie)} kWh</p>
+      <p>Coût : ${nombre(appareil.cout)} FCFA</p>
     </div>
+    <button onclick="supprimerAppareil(${index})">Supprimer</button>
   `;
 
-  const classement = [...totaux.details].sort(
-    (a, b) => b.energie - a.energie
-  );
-
-  if (depassement) {
-    contenu += `
-      <div class="message warning">
-        <strong>Appareils les plus consommateurs</strong>
-        <p>Voici les appareils qui contribuent le plus à votre consommation :</p>
-        <ol>
-          ${classement.map(appareil => `
-            <li>
-              ${texteSecurise(appareil.nom)} :
-              ${nombre(appareil.energie)} kWh par jour
-            </li>
-          `).join("")}
-        </ol>
-        <p>Vous pouvez examiner leurs horaires d'utilisation et réduire leur durée si cela est possible.</p>
-      </div>
-    `;
-  } else {
-    contenu += `
-      <div class="message">
-        <strong>Conseil :</strong>
-        continuez à surveiller vos appareils et évitez de les laisser fonctionner inutilement.
-      </div>
-    `;
-  }
-
-  zone.innerHTML = contenu;
+  liste.appendChild(ligne);
+});
 }
 
-/* HISTORIQUE */
+function supprimerAppareil(index) {
+  appareils.splice(index, 1);
+  localStorage.setItem("appareils", JSON.stringify(appareils));
+  actualiserTableau();
+}
 
-function enregistrerHistorique() {
+function analyser() {
+  const total = calculerTotaux();
+
   if (appareils.length === 0) {
-    alert("Ajoutez au moins un appareil avant d'enregistrer une analyse.");
+    alert("Ajoutez d'abord des appareils.");
     return;
   }
 
-  const totaux = calculerTotaux();
-  const historique = lireHistorique();
-
-  historique.unshift({
+  const resultat = {
     date: new Date().toLocaleString("fr-FR"),
-    nombre: appareils.length,
-    energie: totaux.energieTotale,
-    cout: totaux.coutTotal,
-    appareils: totaux.details
-  });
+    nombreAppareils: appareils.length,
+    total: total.energie,
+    cout: total.cout,
+    puissance: total.puissance,
+    appareils: appareils.map(appareil => ({ ...appareil }))
+  };
 
-  try {
-    localStorage.setItem(
-      "historiqueEco",
-      JSON.stringify(historique)
-    );
+  let historique = JSON.parse(localStorage.getItem("historique") || "[]");
+  historique.unshift(resultat);
+  localStorage.setItem("historique", JSON.stringify(historique));
 
-    afficherHistorique();
-    alert("Analyse enregistrée avec succès !");
-  } catch (erreur) {
-    alert("Impossible d'enregistrer l'historique.");
-  }
+  document.getElementById("resultatAnalyse").innerHTML = `
+    <h3>Résultat de l'analyse</h3>
+    <p>Puissance totale : ${nombre(total.puissance)} W</p>
+    <p>Consommation totale : ${nombre(total.energie)} kWh</p>
+    <p>Coût estimé : ${nombre(total.cout)} FCFA</p>
+  `;
+
+  afficherHistorique();
+}
+
+function lireHistorique() {
+  return JSON.parse(localStorage.getItem("historique") || "[]");
 }
 
 function afficherHistorique() {
   const historique = lireHistorique();
-  const zone = $("historique");
+  const liste = document.getElementById("listeHistorique");
+
+  if (!liste) return;
+
+  liste.innerHTML = "";
 
   if (historique.length === 0) {
-    zone.textContent = "Aucun historique enregistré.";
+    liste.innerHTML = "<p>Aucune analyse enregistrée.</p>";
     return;
   }
 
-  zone.innerHTML = historique.map((element, index) => `
-    <div class="history-item">
-      <strong>Analyse du ${texteSecurise(element.date || "Date inconnue")}</strong>
-      <p>Appareils : ${nombre(Number(element.nombre) || 0)}</p>
-      <p>Énergie : ${nombre(Number(element.energie) || 0)} kWh</p>
-      <p>Coût : ${nombre(Number(element.cout) || 0)} FCFA</p>
+  historique.forEach((element, index) => {
+    const bloc = document.createElement("div");
+    bloc.className = "historique-item";
 
-      <button type="button" class="secondary small"
-        data-details-historique="${index}">
-        Voir les détails
-      </button>
-
-      <button type="button" class="danger small"
-        data-supprimer-historique="${index}">
-        Supprimer
-      </button>
-
+    bloc.innerHTML = `
+      <h3>Analyse du ${texteSecurise(element.date)}</h3>
+      <p>Consommation : ${nombre(element.total)} kWh</p>
+      <p>Coût : ${nombre(element.cout)} FCFA</p>
+      <button onclick="voirDetailsHistorique(${index})">Voir les détails</button>
+      <button onclick="supprimerUnHistorique(${index})">Supprimer</button>
       <div id="details-${index}"></div>
-    </div>
-  `).join("");
+    `;
+
+    liste.appendChild(bloc);
+  });
 }
 
 function voirDetailsHistorique(index) {
@@ -843,14 +1085,11 @@ function voirDetailsHistorique(index) {
 
   if (!element) return;
 
-  const zone = $("details-" + index);
-
+  const zone = document.getElementById("details-" + index);
   if (!zone) return;
 
-  if (!Array.isArray(element.appareils) ||
-      element.appareils.length === 0) {
-    zone.textContent =
-      "Les détails ne sont pas disponibles pour cette ancienne analyse.";
+  if (!Array.isArray(element.appareils) || element.appareils.length === 0) {
+    zone.textContent = "Les détails ne sont pas disponibles.";
     return;
   }
 
@@ -859,18 +1098,10 @@ function voirDetailsHistorique(index) {
       <strong>Détails des appareils</strong>
       ${element.appareils.map(appareil => `
         <p><strong>${texteSecurise(appareil.nom)}</strong></p>
-        <p>Puissance : ${nombre(Number(appareil.puissance) || 0)} W</p>
-        <p>Durée : ${nombre(Number(appareil.duree) || 0)} heures</p>
-        <p>Consommation : ${nombre(Number(appareil.energie) || 0)} kWh</p>
-        <p>Coût : ${nombre(Number(appareil.cout) || 0)} FCFA</p>
-        <p>Pages horaires :
-          ${Array.isArray(appareil.pagesHoraires)
-            ? appareil.pagesHoraires.map(page =>
-                texteSecurise(page.debut) + " à " +
-                texteSecurise(page.fin)
-              ).join(", ")
-            : "Non disponibles"}
-        </p>
+        <p>Puissance : ${nombre(appareil.puissance)} W</p>
+        <p>Durée : ${nombre(appareil.duree)} heures</p>
+        <p>Consommation : ${nombre(appareil.energie)} kWh</p>
+        <p>Coût : ${nombre(appareil.cout)} FCFA</p>
       `).join("")}
     </div>
   `;
@@ -878,170 +1109,41 @@ function voirDetailsHistorique(index) {
 
 function supprimerUnHistorique(index) {
   const historique = lireHistorique();
-
-  if (index < 0 || index >= historique.length) return;
-
-  if (!confirm("Voulez-vous vraiment supprimer cette analyse ?")) {
-    return;
-  }
+  if (!confirm("Supprimer cette analyse ?")) return;
 
   historique.splice(index, 1);
-
-  try {
-    localStorage.setItem(
-      "historiqueEco",
-      JSON.stringify(historique)
-    );
-    afficherHistorique();
-  } catch (erreur) {
-    alert("La suppression n'a pas pu être enregistrée.");
-  }
+  localStorage.setItem("historique", JSON.stringify(historique));
+  afficherHistorique();
 }
 
 function effacerHistorique() {
-  const historique = lireHistorique();
+  if (!confirm("Effacer tout l'historique ?")) return;
 
-  if (historique.length === 0) {
-    alert("L'historique est déjà vide.");
-    return;
-  }
-
-  if (!confirm(
-    "Voulez-vous vraiment effacer tout l'historique ? Cette action est irréversible."
-  )) {
-    return;
-  }
-
-  try {
-    localStorage.setItem("historiqueEco", JSON.stringify([]));
-    afficherHistorique();
-    alert("Tout l'historique a été effacé.");
-  } catch (erreur) {
-    alert("Impossible d'effacer l'historique.");
-  }
+  localStorage.setItem("historique", JSON.stringify([]));
+  afficherHistorique();
 }
-
-/* RÉINITIALISATION */
 
 function reinitialiser() {
-  if (!confirm(
-    "Voulez-vous réinitialiser la liste des appareils ? L'historique sera conservé."
-  )) {
-    return;
-  }
+  if (!confirm("Réinitialiser tous les appareils ?")) return;
 
   appareils = [];
-  pagesHorairesEnCours = [];
-
-  afficherListeAppareils();
-  afficherPagesHoraires();
-  analyser();
-
-  puissanceInput.value = 75;
-  tarifInput.value = 100;
-  nomInput.value = "Ventilateur";
-  nomPersonnaliseInput.value = "";
-  uniteInput.value = "1";
-
-  $("zoneNomPersonnalise").classList.add("hidden");
-  afficherMessage("messageAjout", "La liste des appareils a été réinitialisée.");
+  localStorage.setItem("appareils", JSON.stringify(appareils));
+  actualiserTableau();
 }
 
-/* CONNEXION DES BOUTONS */
+document.getElementById("formAppareil").addEventListener("submit", ajouterAppareil);
+document.getElementById("btnAnalyser").addEventListener("click", analyser);
+document.getElementById("btnEffacerHistorique").addEventListener("click", effacerHistorique);
+document.getElementById("btnReinitialiser").addEventListener("click", reinitialiser);
 
-nomInput.addEventListener("change", function() {
-  $("zoneNomPersonnalise").classList.toggle(
-    "hidden",
-    nomInput.value !== "Autre"
-  );
-});
-
-$("ajouterPageHoraire").addEventListener(
-  "click", ajouterPageHoraire
-);
-
-$("ajouterAppareil").addEventListener(
-  "click", ajouterAppareil
-);
-
-$("analyser").addEventListener(
-  "click", analyser
-);
-
-$("enregistrerHistorique").addEventListener(
-  "click", enregistrerHistorique
-);
-
-$("effacerHistorique").addEventListener(
-  "click", effacerHistorique
-);
-
-$("reinitialiser").addEventListener(
-  "click", reinitialiser
-);
-
-$("listePagesHoraires").addEventListener("click", function(event) {
-  const bouton = event.target.closest("[data-supprimer-page]");
-
-  if (!bouton) return;
-
-  const index = Number(bouton.dataset.supprimerPage);
-
-  pagesHorairesEnCours.splice(index, 1);
-  afficherPagesHoraires();
-});
-
-$("listeAppareils").addEventListener("click", function(event) {
-  const bouton = event.target.closest("[data-supprimer-appareil]");
-
-  if (!bouton) return;
-
-  supprimerAppareil(Number(bouton.dataset.supprimerAppareil));
-});
-
-$("historique").addEventListener("click", function(event) {
-  const boutonDetails = event.target.closest("[data-details-historique]");
-  const boutonSupprimer = event.target.closest("[data-supprimer-historique]");
-
-  if (boutonDetails) {
-    voirDetailsHistorique(
-      Number(boutonDetails.dataset.detailsHistorique)
-    );
-  }
-
-  if (boutonSupprimer) {
-    supprimerUnHistorique(
-      Number(boutonSupprimer.dataset.supprimerHistorique)
-    );
-  }
-});
-
-/* AFFICHAGE INITIAL */
-
-afficherListeAppareils();
-afficherPagesHoraires();
-analyser();
+chargerDonnees();
+actualiserTableau();
 afficherHistorique();
 
-</script>
-
-<script>
-/* SERVICE WORKER */
-
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("./sw.js")
-      .catch(function(erreur) {
-        console.log(
-          "Service Worker non enregistré :",
-          erreur
-        );
-      });
-  });
+  navigator.serviceWorker.register("./sw.js")
+    .catch(erreur => console.log(erreur));
 }
 </script>
-
 </body>
-</html> 
-
- 
+</html>
