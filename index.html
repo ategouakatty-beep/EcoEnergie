@@ -257,6 +257,10 @@ footer {
 </section>
 
 <section class="card">
+  <button id="connecterLCD" type="button">
+  Connecter l'écran LCD
+</button>
+<p id="etatLCD">Écran LCD non connecté</p>
   <h2>➕ Ajouter un appareil</h2>
 
   <label for="nomAppareil">Nom de l'appareil</label>
@@ -618,6 +622,21 @@ function supprimerAppareil(index) {
 /* CALCULS */
 
 function calculerTotaux() {
+  let port = null;
+  document.getElementById("connecterLCD").addEventListener("click", async () => {
+  try {
+    port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 9600 });
+
+    document.getElementById("etatLCD").textContent =
+      "Écran LCD connecté !";
+
+    await actualiserTableau();
+  } catch (erreur) {
+    document.getElementById("etatLCD").textContent =
+      "Connexion impossible : " + erreur.message;
+  }
+});
   let puissanceTotale = 0;
   let energieTotale = 0;
   let coutTotal = 0;
@@ -653,7 +672,7 @@ function calculerTotaux() {
   };
 }
 
-function actualiserTableau() {
+async function actualiserTableau() {
   const totaux = calculerTotaux();
 
   $("nombreAppareils").textContent = appareils.length;
@@ -667,13 +686,20 @@ function actualiserTableau() {
     nombre(totaux.energieMensuelle) + " kWh";
   $("coutMensuel").textContent =
     nombre(totaux.coutMensuel) + " FCFA";
+  if (port && port.writable) {
+  const writer = port.writable.getWriter();
+  await writer.write(new TextEncoder().encode(
+    nombre(totaux.coutMensuel) + "\n"
+  ));
+  writer.releaseLock();
+}
 
   return totaux;
 }
 
 /* DIAGNOSTIC */
 
-function analyser() {
+async function analyser() {
   const totaux = actualiserTableau();
   const zone = $("diagnostic");
   const limite = Number($("limiteEnergie").value);
