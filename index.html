@@ -1130,7 +1130,42 @@ function reinitialiser() {
   localStorage.setItem("appareils", JSON.stringify(appareils));
   actualiserTableau();
 }
+let port;
+let writer;
 
+async function connecterLCD() {
+  try {
+    if (!("serial" in navigator)) {
+      alert("Ton navigateur ne prend pas en charge la connexion série. Utilise Google Chrome sur ordinateur.");
+      return;
+    }
+
+    port = await navigator.serial.requestPort();
+
+    await port.open({ baudRate: 9600 });
+
+    writer = port.writable.getWriter();
+
+    alert("Arduino connecté avec succès !");
+  } catch (erreur) {
+    console.error("Erreur LCD :", erreur);
+    alert("Connexion à l'Arduino impossible : " + erreur.message);
+  }
+}
+
+async function envoyerLCD(message) {
+  if (!writer) {
+    console.log("Arduino non connecté.");
+    return;
+  }
+
+  try {
+    const donnees = new TextEncoder().encode(message + "\n");
+    await writer.write(donnees);
+  } catch (erreur) {
+    console.error("Erreur d'envoi LCD :", erreur);
+  }
+}
 document.getElementById("formAppareil").addEventListener("submit", ajouterAppareil);
 document.getElementById("btnAnalyser").addEventListener("click", analyser);
 document.getElementById("btnEffacerHistorique").addEventListener("click", effacerHistorique);
