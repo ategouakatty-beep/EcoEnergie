@@ -318,12 +318,13 @@ footer .feuilles { font-size: 25px; margin-bottom: 8px; }
   <section class="card">
     <h2>🔌 Connexion de l'écran LCD</h2>
     <div class="lcd">
-      <strong>📟 Écran de contrôle</strong>
-      <p id="etatLCD">Écran LCD non connecté.</p>
-      <button id="btnLCD" type="button" class="full">
-  Connecter l'écran LCD
-</button>
-<p id="etatLCD"></p>
+  <strong>📟 Écran de contrôle</strong>
+  <p id="etatLCD">Écran LCD non connecté.</p>
+
+  <button id="btnLCD" type="button" class="full">
+    Connecter l'écran LCD
+  </button>
+</div>
 
     <div class="plante-deco">
       <span class="emoji">🌱</span>
@@ -938,21 +939,7 @@ $("historique").addEventListener("click", event => {
 afficherPagesHoraires();
 actualiserTableau();
 afficherHistorique();
-const pagesOnglets = document.querySelectorAll(".page");
-
-function afficherOnglet(id) {
-  pagesOnglets.forEach(function (page) {
-    page.style.display = page.id === id ? "" : "none";
-  });
-}
-
-document.querySelectorAll(".onglets button").forEach(function (bouton) {
-  bouton.addEventListener("click", function () {
-    afficherOnglet(bouton.dataset.page);
-  });
-});
-
-afficherOnglet("appareils");
+  
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js").catch(erreur => {
     console.log("Service worker non enregistré :", erreur);
