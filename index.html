@@ -283,12 +283,6 @@ footer .feuilles { font-size: 25px; margin-bottom: 8px; }
 
 <body>
 
-  <nav class="onglets">
-  <button type="button" data-page="appareils">Appareils</button>
-  <button type="button" data-page="surveillance">Surveillance</button>
-  <button type="button" data-page="pageHistorique">Historique</button>
-</nav>
-
 <header>
   <div class="plante gauche">🪴</div>
   <div class="plante droite">🌿</div>
@@ -890,12 +884,6 @@ async function envoyerLCD() {
     console.error(erreur);
     $("etatLCD").textContent = "Erreur d'envoi vers le LCD.";
   }
-}
-  function afficherNomPersonnalise() {
-  $("zoneNomPersonnalise").classList.toggle(
-    "hidden",
-    nomInput.value !== "Autre"
-  );
 }
 
 function afficherNomPersonnalise() {
