@@ -301,7 +301,7 @@ footer .feuilles { font-size: 25px; margin-bottom: 8px; }
   <button class="onglet actif" data-page="accueil">🏠 Accueil</button>
   <button class="onglet" data-page="appareils">⚡ Appareils</button>
   <button class="onglet" data-page="surveillance">🎯 Surveillance</button>
-  <button class="onglet" data-page="historique">📚 Historique</button>
+  <button class="onglet" data-page="pageHistorique">📚 Historique</button>
 </nav>
 
 <main>
@@ -338,8 +338,7 @@ footer .feuilles { font-size: 25px; margin-bottom: 8px; }
         <p>Maîtrisez votre consommation pour préserver les ressources naturelles.</p>
       </div>
     </div>
-
-    <button class="full" type="button" onclick="changerPage('appareils')">+ Ajouter un appareil</button>
+    
   </section>
 </section>
 
@@ -426,11 +425,10 @@ footer .feuilles { font-size: 25px; margin-bottom: 8px; }
   </section>
 </section>
 
-<section class="page" id="pageHistorique" hidden>
+<section class="page" id="pageHistorique">
   <section class="card">
     <h2>📚 Historique des analyses</h2>
     <p class="intro">Retrouvez les résultats de vos anciennes analyses.</p>
-    <button type="button" class="full" id="enregistrerHistorique">Enregistrer cette analyse</button>
     <div id="historique">Aucun historique enregistré.</div>
     <button type="button" class="danger full" id="effacerHistorique">Effacer tout l'historique</button>
   </section>
@@ -655,6 +653,8 @@ function ajouterAppareil() {
   $("zoneNomPersonnalise").classList.add("hidden");
 
   afficherMessage("messageAjout", "Appareil ajouté avec succès !");
+  enregistrerHistorique();
+changerPage("accueil");
 }
 
 function afficherListeAppareils() {
@@ -812,7 +812,6 @@ function enregistrerHistorique() {
 
   sauvegarderHistorique();
   afficherHistorique();
-  alert("Analyse enregistrée !");
 }
 
 function voirDetailsHistorique(index) {
@@ -892,13 +891,30 @@ async function envoyerLCD() {
     $("etatLCD").textContent = "Erreur d'envoi vers le LCD.";
   }
 }
+  function afficherNomPersonnalise() {
+  $("zoneNomPersonnalise").classList.toggle(
+    "hidden",
+    nomInput.value !== "Autre"
+  );
+}
+
+function afficherNomPersonnalise() {
+  $("zoneNomPersonnalise").classList.toggle(
+    "hidden",
+    nomInput.value !== "Autre"
+  );
+}
+
+function supprimerPageHoraire(index) {
+  pagesHorairesEnCours.splice(index, 1);
+  afficherPagesHoraires();
+}
 
 /* EVENEMENTS */
 $("nomAppareil").addEventListener("change", afficherNomPersonnalise);
 $("ajouterPageHoraire").addEventListener("click", ajouterPageHoraire);
 $("ajouterAppareil").addEventListener("click", ajouterAppareil);
 $("analyser").addEventListener("click", analyser);
-$("enregistrerHistorique").addEventListener("click", enregistrerHistorique);
 $("effacerHistorique").addEventListener("click", effacerHistorique);
 $("reinitialiser").addEventListener("click", reinitialiser);
 $("btnLCD").addEventListener("click", connecterLCD);
