@@ -1,4 +1,4 @@
-const CACHE_NAME = "ecoenergie-v2";
+const CACHE_NAME = "ecoenergie-v3";
 
 const FILES = [
   "./",
@@ -22,7 +22,10 @@ self.addEventListener("activate", (event) => {
       .then((nomsCaches) => {
         return Promise.all(
           nomsCaches
-            .filter((nom) => nom.startsWith("ecoenergie-") && nom !== CACHE_NAME)
+            .filter((nom) =>
+              nom.startsWith("ecoenergie-") &&
+              nom !== CACHE_NAME
+            )
             .map((nom) => caches.delete(nom))
         );
       })
@@ -42,22 +45,24 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     (async () => {
-      const cache = await caches.open(CACHE_NAME);
-      const reponseCache = await cache.match(requete);
-
-      if (reponseCache) {
-        return reponseCache;
-      }
-
       try {
         const reponse = await fetch(requete);
 
         if (reponse.ok) {
+          const cache = await caches.open(CACHE_NAME);
           await cache.put(requete, reponse.clone());
         }
 
         return reponse;
+
       } catch (erreur) {
+        const cache = await caches.open(CACHE_NAME);
+        const reponseCache = await cache.match(requete);
+
+        if (reponseCache) {
+          return reponseCache;
+        }
+
         if (requete.mode === "navigate") {
           return await cache.match("./index.html");
         }
