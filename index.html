@@ -6,257 +6,252 @@
 <title>ÉcoÉnergie</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font:16px Arial,sans-serif;background:#eef6f0;color:#183c2d}
-header{background:#087f5b;color:white;text-align:center;padding:18px}
-header h1{margin:0}
-nav{display:flex;flex-wrap:wrap;gap:6px;padding:10px}
-button{font:inherit;border:0;border-radius:8px;background:#087f5b;
-color:white;padding:12px;cursor:pointer}
-nav button{flex:1}
-main{max-width:850px;margin:auto;padding:12px}
+body{margin:0;background:#edf5f0;color:#29483b;
+font:16px Arial,sans-serif}
+header{background:linear-gradient(120deg,#075b42,#11956b);
+color:white;text-align:center;padding:30px 18px;
+border-radius:0 0 30px 30px}
+header h1{font-size:32px;margin:8px}
+header p{margin:10px 0}
+nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:18px}
+button{font:inherit;font-weight:bold;border:0;border-radius:13px;
+padding:15px;background:#087e58;color:white;cursor:pointer}
+nav button{background:white;color:#345b49;border:1px solid #d4e4da}
+nav button.active{background:#087e58;color:white}
+main{max-width:850px;margin:auto;padding:10px 18px 30px}
 section{display:none}
 section.active{display:block}
-.card{background:white;border-radius:12px;padding:18px;margin-bottom:12px}
-label{display:block;margin-top:12px}
-input,select{width:100%;padding:11px;margin-top:5px;
-font:inherit;border:1px solid #aac8b8;border-radius:6px}
-.full{width:100%;margin-top:12px}
-.row{padding:12px 0;border-bottom:1px solid #ddd}
-.danger{background:#a83232}
+.card{background:white;border-radius:22px;padding:22px;
+margin-bottom:18px;box-shadow:0 4px 16px #173d2910}
+h2,h3{color:#087e58}
+h2{margin-top:0}
+.stat{background:#e6f2eb;border:1px solid #d2e7db;
+border-radius:17px;text-align:center;padding:20px;margin:12px 0}
+.value{font-size:30px;font-weight:bold;color:#087e58;margin-top:10px}
+label{display:block;font-weight:bold;margin-top:15px}
+input,select{width:100%;font:inherit;padding:13px;margin-top:6px;
+border:1px solid #b8d1c2;border-radius:9px;background:white}
+.full{width:100%;margin-top:14px}
+.row{background:#e6f2eb;border-radius:12px;padding:14px;margin:10px 0}
 .small{font-size:14px}
-#message{color:#a83232;white-space:pre-wrap}
+#message{margin-top:12px;color:#a32135}
+#monitorTab.alert{background:#b00020!important;color:white!important;
+animation:flash 1s infinite}
+@keyframes flash{50%{background:#ed4658}}
+footer{text-align:center;padding:20px;color:#587367}
 </style>
 </head>
 <body>
 <header>
+<div style="font-size:28px">🌿 🌱</div>
 <h1>ÉcoÉnergie</h1>
-<p>Les apprentis inventeurs</p>
-<button id="lang">English</button>
+<p>Suivez et maîtrisez votre consommation électrique</p>
+<p>ÉCONOMISER • PROTÉGER • PRÉSERVER</p>
 </header>
 
 <nav>
-<button data-page="home" data-fr="Accueil" data-en="Home"></button>
-<button data-page="devices" data-fr="Appareils" data-en="Devices"></button>
-<button data-page="history" data-fr="Historique" data-en="History"></button>
+<button class="active" data-page="home">🏠 Accueil</button>
+<button data-page="devices">⚡ Appareils</button>
+<button id="monitorTab" data-page="monitor">🎯 Surveillance</button>
+<button data-page="history">📚 Historique</button>
 </nav>
 
 <main>
 <section id="home" class="active">
 <div class="card">
-<h2 data-fr="Tableau de bord" data-en="Dashboard"></h2>
-<div id="stats"></div>
-<button class="full" data-page="devices"
-data-fr="Ajouter un appareil" data-en="Add a device"></button>
+<h2>🌿 Tableau de bord</h2>
+<p>Retrouvez ici un aperçu de votre consommation électrique.</p>
+<div class="stat">⚡ Nombre d'appareils<div id="count" class="value">0</div></div>
+<div class="stat">🔌 Puissance totale<div id="powerTotal" class="value">0 W</div></div>
+<div class="stat">📊 Consommation journalière<div id="energy" class="value">0 kWh</div></div>
+<div class="stat">💰 Coût journalier<div id="cost" class="value">0 FCFA</div></div>
+<button class="full" data-page="devices">+ Ajouter un appareil</button>
 </div>
 <div class="card">
-<h2 data-fr="Conseils d’économie" data-en="Energy saving tips"></h2>
-<div id="tips"></div>
+<h2>🔌 Connexion de l'écran LCD</h2>
+<p id="lcd">Écran LCD non connecté.</p>
+<button id="connect" class="full">Connecter l'écran LCD</button>
 </div>
 </section>
 
 <section id="devices">
 <div class="card">
-<h2 data-fr="Ajouter un appareil" data-en="Add a device"></h2>
-
-<label data-fr="Pays" data-en="Country"></label>
+<h2>⚡ Ajouter un appareil</h2>
+<label>Pays</label>
 <select id="country"></select>
-
 <p id="currency"></p>
-<label id="rateLabel"></label>
+<label>Tarif du kWh indiqué sur la facture</label>
 <input id="rate" type="number" min="0" step="any">
-<p class="small" id="rateHelp"></p>
-
-<label data-fr="Nom de l’appareil" data-en="Device name"></label>
-<input id="name" placeholder="Télévision">
-
-<label data-fr="Puissance" data-en="Power"></label>
+<label>Limite de consommation journalière (kWh)</label>
+<input id="limit" type="number" min="0" step="any" value="5">
+<label>Nom de l'appareil</label>
+<input id="name">
+<label>Puissance</label>
 <input id="power" type="number" min="0" step="any">
 <select id="unit">
 <option value="1">W</option>
 <option value="1000">kW</option>
 <option value="1000000">MW</option>
 </select>
-
-<label data-fr="Début de l’horaire" data-en="Start time"></label>
+<label>Début de l'horaire</label>
 <input id="start" type="time" value="08:00">
-
-<label data-fr="Fin de l’horaire" data-en="End time"></label>
+<label>Fin de l'horaire</label>
 <input id="end" type="time" value="10:00">
-
-<button id="addTime" class="full"
-data-fr="Ajouter une page horaire" data-en="Add time slot"></button>
+<button id="addTime" class="full">Ajouter une page horaire</button>
 <div id="times"></div>
-
-<button id="addDevice" class="full"
-data-fr="Ajouter l’appareil" data-en="Add device"></button>
-<div id="message" role="status"></div>
+<button id="addDevice" class="full">Ajouter l'appareil</button>
+<p id="message" role="status"></p>
 </div>
-
 <div class="card">
-<h2 data-fr="Appareils enregistrés" data-en="Saved devices"></h2>
+<h2>Appareils enregistrés</h2>
 <div id="list"></div>
+</div>
+</section>
+
+<section id="monitor">
+<div class="card">
+<h2>🌿 Conseils écologiques</h2>
+<div id="tips"></div>
 </div>
 </section>
 
 <section id="history">
 <div class="card">
-<h2 data-fr="Historique" data-en="History"></h2>
+<h2>📚 Historique</h2>
 <div id="logs"></div>
-<button id="clear" class="danger full"
-data-fr="Effacer l’historique" data-en="Clear history"></button>
+<button id="clear" class="full">Effacer l'historique</button>
 </div>
 </section>
 </main>
+<footer>🌿 ÉcoÉnergie — Les apprentis inventeurs 🌱</footer>
 
 <script>
 "use strict";
 const $=id=>document.getElementById(id);
-let lang="fr",devices=[],logs=[],times=[],rates={};
-const T=(fr,en)=>lang==="fr"?fr:en;
 const countries=[
-["Afrique du Sud","South Africa","ZAR"],
-["Algérie","Algeria","DZD"],
-["Angola","Angola","AOA"],
-["Bénin","Benin","XOF"],
-["Botswana","Botswana","BWP"],
-["Burkina Faso","Burkina Faso","XOF"],
-["Burundi","Burundi","BIF"],
-["Cameroun","Cameroon","XAF"],
-["Cap-Vert","Cape Verde","CVE"],
-["Comores","Comoros","KMF"],
-["Congo","Congo","XAF"],
-["Côte d’Ivoire","Ivory Coast","XOF"],
-["Djibouti","Djibouti","DJF"],
-["Égypte","Egypt","EGP"],
-["Érythrée","Eritrea","ERN"],
-["Eswatini","Eswatini","SZL"],
-["Éthiopie","Ethiopia","ETB"],
-["Gabon","Gabon","XAF"],
-["Gambie","Gambia","GMD"],
-["Ghana","Ghana","GHS"],
-["Guinée","Guinea","GNF"],
-["Guinée-Bissau","Guinea-Bissau","XOF"],
-["Guinée équatoriale","Equatorial Guinea","XAF"],
-["Kenya","Kenya","KES"],
-["Lesotho","Lesotho","LSL"],
-["Liberia","Liberia","LRD"],
-["Libye","Libya","LYD"],
-["Madagascar","Madagascar","MGA"],
-["Malawi","Malawi","MWK"],
-["Mali","Mali","XOF"],
-["Maroc","Morocco","MAD"],
-["Maurice","Mauritius","MUR"],
-["Mauritanie","Mauritania","MRU"],
-["Mozambique","Mozambique","MZN"],
-["Namibie","Namibia","NAD"],
-["Niger","Niger","XOF"],
-["Nigeria","Nigeria","NGN"],
-["Ouganda","Uganda","UGX"],
-["RCA","Central African Republic","XAF"],
-["RDC","DR Congo","CDF"],
-["Rwanda","Rwanda","RWF"],
-["Sao Tomé-et-Principe","Sao Tome and Principe","STN"],
-["Sénégal","Senegal","XOF"],
-["Seychelles","Seychelles","SCR"],
-["Sierra Leone","Sierra Leone","SLE"],
-["Somalie","Somalia","SOS"],
-["Soudan","Sudan","SDG"],
-["Soudan du Sud","South Sudan","SSP"],
-["Tanzanie","Tanzania","TZS"],
-["Tchad","Chad","XAF"],
-["Togo","Togo","XOF"],
-["Tunisie","Tunisia","TND"],
-["Zambie","Zambia","ZMW"],
-["Zimbabwe","Zimbabwe","ZWG"]
+["Togo","XOF"],["Bénin","XOF"],["Sénégal","XOF"],
+["Mali","XOF"],["Burkina Faso","XOF"],["Niger","XOF"],
+["Côte d’Ivoire","XOF"],["Cameroun","XAF"],["Gabon","XAF"],
+["Congo","XAF"],["France","EUR"],["Ghana","GHS"],
+["Nigeria","NGN"],["Maroc","MAD"],["Algérie","DZD"],
+["Tunisie","TND"],["Kenya","KES"],["Afrique du Sud","ZAR"],
+["RDC","CDF"],["Madagascar","MGA"],["Égypte","EGP"],
+["Tanzanie","TZS"],["Ouganda","UGX"]
 ];
-function save(){
+let state={devices:[],logs:[],rates:{},country:"Togo",limit:5};
 try{
-localStorage.setItem("ecoV4",JSON.stringify({
-devices,logs,rates,lang,country:$("country").value
-}));
-}catch(e){
-$("message").textContent=T("Enregistrement local indisponible.","Local storage unavailable.");
+const saved=JSON.parse(localStorage.getItem("ecoV4")||"{}");
+state={...state,...saved};
+}catch(e){}
+if(!Array.isArray(state.devices))state.devices=[];
+if(!Array.isArray(state.logs))state.logs=[];
+if(!state.rates||typeof state.rates!=="object")state.rates={};
+let times=[],writer=null;
+function save(){
+try{localStorage.setItem("ecoV4",JSON.stringify(state))}
+catch(e){$("message").textContent="Enregistrement local indisponible."}
 }
+function country(){
+return countries.find(c=>c[0]===state.country)||countries[0];
 }
-let old={};
-try{old=JSON.parse(localStorage.getItem("ecoV4")||"{}")}catch(e){}
-devices=Array.isArray(old.devices)?old.devices:[];
-logs=Array.isArray(old.logs)?old.logs:[];
-rates=old.rates||{};
-lang=old.lang==="en"?"en":"fr";
-
+function currency(c){
+return c==="XOF"?"FCFA":c==="XAF"?"FCFA (XAF)":c;
+}
 function show(page){
-document.querySelectorAll("section").forEach(s=>{
-s.classList.toggle("active",s.id===page);
-});
+document.querySelectorAll("section").forEach(s=>
+s.classList.toggle("active",s.id===page));
+document.querySelectorAll("nav button").forEach(b=>
+b.classList.toggle("active",b.dataset.page===page));
 window.scrollTo(0,0);
 }
 document.querySelectorAll("[data-page]").forEach(b=>{
 b.onclick=()=>show(b.dataset.page);
 });
-function selectedCountry(){
-return countries.find(c=>c[0]===$("country").value)||countries[0];
+function record(text){
+state.logs.unshift(new Date().toLocaleString()+" — "+text);
+state.logs=state.logs.slice(0,200);
 }
-function countryOptions(){
-let value=$("country").value||old.country||"Togo";
-$("country").replaceChildren();
-countries.forEach(c=>{
-let o=new Option(c[lang==="fr"?0:1],c[0]);
-$("country").add(o);
-});
-$("country").value=value;
-}
-function countryChanged(){
-let c=selectedCountry();
-let currency=c[2]==="XOF"?T("Franc CFA (XOF)","CFA franc (XOF)"):
-c[2]==="XAF"?T("Franc CFA (XAF)","CFA franc (XAF)"):c[2];
-$("currency").textContent=T("Monnaie : ","Currency: ")+currency;
-$("rateLabel").textContent=T("Tarif du kWh : ","Price per kWh: ")+c[2];
-$("rate").value=rates[c[0]]??"";
-$("rateHelp").textContent=$("rate").value!==""?
-T("Tarif de référence enregistré pour ce pays.","Saved reference rate for this country."):
-T("Aucun tarif enregistré. Saisis le tarif de ta facture.",
-"No saved rate. Enter the rate from your bill.");
-}
-$("country").onchange=()=>{countryChanged();save()};
-$("rate").onchange=()=>{
-let v=$("rate").value;
-if(v!==""&&Number(v)>=0)rates[selectedCountry()[0]]=Number(v);
-save();
-};
-function translate(){
-document.documentElement.lang=lang;
-document.querySelectorAll("[data-fr]").forEach(el=>{
-el.textContent=el.dataset[lang];
-});
-$("lang").textContent=lang==="fr"?"English":"Français";
-countryOptions();countryChanged();render();
-}
-$("lang").onclick=()=>{
-lang=lang==="fr"?"en":"fr";
-translate();save();
-};
-function mins(s){
+function minutes(s){
 if(!s||!s.includes(":"))return NaN;
-let [h,m]=s.split(":").map(Number);
+const [h,m]=s.split(":").map(Number);
 return h*60+m;
 }
-function makeButton(label,fn){
-let b=document.createElement("button");
-b.textContent=label;b.onclick=fn;return b;
+function btn(text,fn){
+const b=document.createElement("button");
+b.textContent=text;b.onclick=fn;return b;
 }
-function record(fr,en){
-logs.unshift(new Date().toLocaleString()+" — "+T(fr,en));
-logs=logs.slice(0,200);
+function energy(){
+return state.devices.reduce((s,a)=>
+s+(Number(a.w)||0)*(Number(a.h)||0)/1000,0);
+}
+function render(){
+const e=energy();
+$("count").textContent=state.devices.length;
+$("powerTotal").textContent=
+state.devices.reduce((s,a)=>s+(Number(a.w)||0),0)+" W";
+$("energy").textContent=e.toFixed(2)+" kWh";
+const costs={};
+state.devices.forEach(a=>{
+const c=a.currency||"XOF";
+costs[c]=(costs[c]||0)+
+(Number(a.w)||0)*(Number(a.h)||0)*(Number(a.r)||0)/1000;
+});
+$("cost").textContent=Object.entries(costs)
+.map(([c,v])=>v.toFixed(2)+" "+currency(c)).join(" / ")||"0 "+currency(country()[1]);
+const over=e>Number(state.limit);
+$("monitorTab").classList.toggle("alert",over);
+$("tips").textContent=over?
+"⚠ Limite dépassée. Réduisez les durées d’utilisation et éteignez les appareils inutilisés.":
+"💡 Éteignez les lumières inutiles. Débranchez les appareils en veille. Privilégiez les équipements économes.";
+$("times").replaceChildren();
+times.forEach((t,i)=>{
+const row=document.createElement("div");
+row.className="row";row.textContent=t.a+" – "+t.b+" ";
+row.append(btn("Supprimer",()=>{
+times.splice(i,1);render();
+}));
+$("times").append(row);
+});
+$("list").replaceChildren();
+state.devices.forEach((a,i)=>{
+const row=document.createElement("div");
+row.className="row";
+row.textContent=a.name+" — "+a.w+" W — "+Number(a.h).toFixed(2)+" h/j ";
+row.append(btn("Supprimer",()=>{
+state.devices.splice(i,1);
+record("Appareil supprimé : "+a.name);
+save();render();
+}));
+$("list").append(row);
+});
+$("logs").textContent=state.logs.join("\n")||"Aucun historique";
+}
+countries.forEach(c=>$("country").add(new Option(c[0],c[0])));
+$("country").value=country()[0];
+function countryUI(){
+$("currency").textContent="Monnaie : "+currency(country()[1]);
+$("rate").value=state.rates[state.country]??"";
+}
+$("country").onchange=()=>{
+state.country=$("country").value;
+countryUI();save();
+};
+$("rate").oninput=()=>{
+if($("rate").value!==""&&Number($("rate").value)>=0)
+state.rates[state.country]=Number($("rate").value);
 save();
-}
+};
+$("limit").value=state.limit;
+$("limit").oninput=()=>{
+state.limit=Math.max(0,Number($("limit").value)||0);
+save();render();
+};
 $("addTime").onclick=()=>{
-let a=$("start").value,b=$("end").value;
-let d=mins(a),f=mins(b);
+const a=$("start").value,b=$("end").value;
+const d=minutes(a),f=minutes(b);
 if(!Number.isFinite(d)||!Number.isFinite(f)||f<=d||
-times.some(t=>d<mins(t.b)&&f>mins(t.a))){
-$("message").textContent=T("Horaire invalide ou chevauchant.",
-"Invalid or overlapping time slot.");
+times.some(t=>d<minutes(t.b)&&f>minutes(t.a))){
+$("message").textContent="Horaire invalide ou chevauchant.";
 return;
 }
 times.push({a,b});
@@ -264,74 +259,45 @@ $("message").textContent="";
 render();
 };
 $("addDevice").onclick=()=>{
-let name=$("name").value.trim();
-let w=Number($("power").value)*Number($("unit").value);
-let r=Number($("rate").value);
-if(!name||!(w>0)||$("rate").value===""||r<0||!times.length){
-$("message").textContent=T(
-"Renseigne le nom, la puissance, le tarif et au moins un horaire.",
-"Enter the name, power, rate and at least one time slot.");
+const name=$("name").value.trim();
+const w=Number($("power").value)*Number($("unit").value);
+const r=Number($("rate").value);
+if(!name||!Number.isFinite(w)||w<=0||
+$("rate").value===""||!Number.isFinite(r)||r<0||!times.length){
+$("message").textContent="Renseigne le nom, la puissance, le tarif et au moins un horaire.";
 return;
 }
-let h=times.reduce((s,t)=>s+(mins(t.b)-mins(t.a))/60,0);
-let c=selectedCountry();
-rates[c[0]]=r;
-devices.push({name,w,h,r,country:c[0],currency:c[2]});
-record("Appareil ajouté : "+name,"Device added: "+name);
+const h=times.reduce((s,t)=>s+(minutes(t.b)-minutes(t.a))/60,0);
+state.devices.push({name,w,h,r,country:state.country,currency:country()[1]});
+record("Appareil ajouté : "+name);
 times=[];
-$("name").value="";
-$("power").value="";
+$("name").value="";$("power").value="";
 $("message").textContent="";
 save();render();show("home");
 };
-function render(){
-let energy=devices.reduce((s,a)=>s+a.w*a.h/1000,0);
-$("stats").textContent=
-T("Appareils : ","Devices: ")+devices.length+
-"\n"+T("Consommation journalière : ","Daily consumption: ")+
-energy.toFixed(2)+" kWh";
-
-let costs={};
-devices.forEach(a=>{
-let cur=a.currency||"XOF";
-costs[cur]=(costs[cur]||0)+a.w*a.h*a.r/1000;
-});
-Object.entries(costs).forEach(([cur,cost])=>{
-$("stats").textContent+="\n"+T("Coût journalier : ","Daily cost: ")+
-cost.toFixed(2)+" "+cur;
-});
-$("times").replaceChildren();
-times.forEach((t,i)=>{
-let row=document.createElement("div");
-row.className="row";row.textContent=t.a+" – "+t.b+" ";
-row.append(makeButton("×",()=>{times.splice(i,1);render()}));
-$("times").append(row);
-});
-$("list").replaceChildren();
-devices.forEach((a,i)=>{
-let row=document.createElement("div");
-row.className="row";
-row.textContent=a.name+" — "+a.w+" W — "+a.h.toFixed(2)+" h/j";
-row.append(makeButton(T("Supprimer","Delete"),()=>{
-devices.splice(i,1);
-record("Appareil supprimé : "+a.name,"Device deleted: "+a.name);
-save();render();
-}));
-$("list").append(row);
-});
-$("logs").textContent=logs.join("\n")||T("Aucun historique","No history");
-$("tips").textContent=energy>5?
-T("Votre consommation estimée est élevée. Réduisez les durées d’utilisation et éteignez les appareils inutilisés.",
-"Your estimated consumption is high. Reduce usage time and switch off unused devices."):
-T("Éteignez les appareils inutilisés et privilégiez les équipements économes.",
-"Switch off unused devices and choose energy-efficient equipment.");
-}
 $("clear").onclick=()=>{
-if(confirm(T("Effacer tout l’historique ?","Clear all history?"))){
-logs=[];save();render();
+if(confirm("Effacer tout l’historique ?")){
+state.logs=[];save();render();
 }
 };
-translate();
+$("connect").onclick=async()=>{
+try{
+if(!navigator.serial){
+$("lcd").textContent="Connexion série indisponible sur cet appareil.";
+return;
+}
+const port=await navigator.serial.requestPort();
+await port.open({baudRate:9600});
+writer=port.writable.getWriter();
+await writer.write(new TextEncoder().encode(
+"ECOENERGIE "+energy().toFixed(2)+"\n"));
+$("lcd").textContent="Écran LCD connecté.";
+}catch(e){
+$("lcd").textContent="Connexion impossible : "+e.message;
+}
+};
+countryUI();
+render();
 </script>
 </body>
 </html>
