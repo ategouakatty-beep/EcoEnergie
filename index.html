@@ -2,92 +2,108 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#087f5b">
-<link rel="manifest" href="./manifest.json">
 <title>ÉcoÉnergie</title>
+
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;margin:0;background:#f1f7f3;color:#20332b}
+body{margin:0;font-family:Arial,sans-serif;background:#eef7f1;color:#20332b}
 header{background:#087f5b;color:white;text-align:center;padding:22px}
+header h1{margin:0 0 8px}
+header p{margin:0}
 nav{display:flex;flex-wrap:wrap;gap:6px;padding:12px}
-button{padding:12px;border:0;border-radius:8px;background:#087f5b;color:white;font-size:16px;cursor:pointer;margin:5px 0}
-nav button{flex:1}
+button{font:inherit;background:#087f5b;color:white;border:0;border-radius:8px;padding:12px;cursor:pointer}
+nav button{flex:1;min-width:90px}
 main{max-width:850px;margin:auto;padding:12px}
 section{display:none}
 section.active{display:block}
 .card{background:white;padding:18px;border-radius:12px;margin-bottom:12px}
 label{display:block;margin:12px 0 5px}
-input{width:100%;padding:12px;font-size:16px;border:1px solid #b9cfc2;border-radius:6px}
+input,select{width:100%;padding:12px;border:1px solid #b9cfc2;border-radius:6px;font:inherit}
+button.action{display:block;width:100%;margin-top:12px}
 .danger{background:#a83232}
-.msg{padding:12px;white-space:pre-wrap}
-.row{border-bottom:1px solid #ddd;padding:10px 0}
+.msg{padding:12px 0;white-space:pre-wrap}
+.row{padding:12px 0;border-bottom:1px solid #ddd}
+.row button{margin-top:8px}
+#erreur{color:#a83232;font-weight:bold}
 </style>
 </head>
-<body>
 
+<body>
 <header>
 <h1>ÉcoÉnergie</h1>
 <p>Les apprentis inventeurs</p>
 </header>
 
 <nav>
-<button data-page="home">Accueil</button>
-<button data-page="devices">Appareils</button>
-<button data-page="monitor">Surveillance</button>
-<button data-page="history">Historique</button>
+<button type="button" data-page="home">Accueil</button>
+<button type="button" data-page="devices">Appareils</button>
+<button type="button" data-page="monitor">Surveillance</button>
+<button type="button" data-page="history">Historique</button>
 </nav>
 
 <main>
+<p id="erreur" role="alert"></p>
+
 <section id="home" class="active">
 <div class="card">
 <h2>Tableau de bord</h2>
 <div id="stats"></div>
-<button id="go">Ajouter un appareil</button>
+<button type="button" class="action" data-page="devices">Ajouter un appareil</button>
 </div>
+
 <div class="card">
 <h2>Écran LCD</h2>
 <p id="lcd">Non connecté</p>
-<button id="connect">Connecter en USB</button>
+<button type="button" id="connect">Connecter en USB</button>
 </div>
 </section>
 
 <section id="devices">
 <div class="card">
 <h2>Ajouter un appareil</h2>
-<label for="name">Nom</label>
-<input id="name" placeholder="Ventilateur">
 
-<label for="power">Puissance en watts</label>
+<label for="name">Nom de l'appareil</label>
+<input id="name" placeholder="Exemple : ventilateur">
+
+<label for="power">Puissance</label>
 <input id="power" type="number" min="0" value="75">
 
-<label for="rate">Tarif FCFA/kWh</label>
+<label for="unit">Unité</label>
+<select id="unit">
+<option value="1">W</option>
+<option value="1000">kW</option>
+<option value="1000000">MW</option>
+</select>
+
+<label for="rate">Tarif en FCFA/kWh</label>
 <input id="rate" type="number" min="0" value="100">
 
-<label for="start">Début</label>
+<label for="start">Début de l'horaire</label>
 <input id="start" type="time" value="08:00">
 
-<label for="end">Fin</label>
+<label for="end">Fin de l'horaire</label>
 <input id="end" type="time" value="10:00">
 
-<button id="addTime">Ajouter une page horaire</button>
+<button type="button" class="action" id="addTime">Ajouter une page horaire</button>
 <div id="times"></div>
 
-<button id="addDevice">Ajouter l'appareil</button>
+<button type="button" class="action" id="addDevice">Ajouter l'appareil</button>
 <div id="message" class="msg" role="status"></div>
 </div>
 
 <div class="card">
 <h2>Appareils enregistrés</h2>
 <div id="list"></div>
-<button class="danger" id="reset">Réinitialiser les appareils</button>
+<button type="button" class="danger action" id="reset">Réinitialiser les appareils</button>
 </div>
 </section>
 
 <section id="monitor">
 <div class="card">
 <h2>Surveillance</h2>
-<label for="limit">Limite journalière kWh</label>
+<label for="limit">Limite journalière en kWh</label>
 <input id="limit" type="number" min="0.01" value="5">
 <p id="diagnostic"></p>
 </div>
@@ -97,14 +113,13 @@ input{width:100%;padding:12px;font-size:16px;border:1px solid #b9cfc2;border-rad
 <div class="card">
 <h2>Historique automatique</h2>
 <div id="logs"></div>
-<button class="danger" id="clear">Effacer l'historique</button>
+<button type="button" class="danger action" id="clear">Effacer l'historique</button>
 </div>
 </section>
 </main>
 
 <script>
 "use strict";
-  alert("ÉcoÉnergie : JavaScript chargé");
 
 const $ = id => document.getElementById(id);
 let devices = [];
@@ -112,45 +127,40 @@ let logs = [];
 let times = [];
 let writer = null;
 
+function error(message) {
+  $("erreur").textContent = message;
+}
+
+function msg(message) {
+  $("message").textContent = message;
+}
+
 function load(key) {
   try {
-    const a = JSON.parse(localStorage.getItem(key) || "[]");
-    return Array.isArray(a) ? a : [];
+    const data = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(data) ? data : [];
   } catch (e) {
     return [];
   }
 }
-
-devices = load("appareilsEco");
-logs = load("historiqueEco");
 
 function save() {
   try {
     localStorage.setItem("appareilsEco", JSON.stringify(devices));
     localStorage.setItem("historiqueEco", JSON.stringify(logs));
   } catch (e) {
-    $("message").textContent = "Stockage indisponible";
+    error("Enregistrement local indisponible.");
   }
 }
 
-function page(id) {
-  document.querySelectorAll("section").forEach(s => {
-    s.classList.toggle("active", s.id === id);
-  });
-}
-
-document.querySelectorAll("[data-page]").forEach(b => {
-  b.onclick = () => page(b.dataset.page);
-});
-$("go").onclick = () => page("devices");
-
-function min(t) {
-  const [h, m] = t.split(":").map(Number);
-  return h * 60 + m;
+function minutes(time) {
+  if (typeof time !== "string" || !time.includes(":")) return NaN;
+  const parts = time.split(":").map(Number);
+  return parts[0] * 60 + parts[1];
 }
 
 function duration(t) {
-  return (min(t.fin) - min(t.debut)) / 60;
+  return (minutes(t.fin) - minutes(t.debut)) / 60;
 }
 
 function totals() {
@@ -166,42 +176,74 @@ function totals() {
   return {p, e, c};
 }
 
-function msg(s) {
-  $("message").textContent = s;
+function button(label, action) {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.textContent = label;
+  b.addEventListener("click", action);
+  return b;
+}
+
+function record(action) {
+  logs.unshift({
+    date: new Date().toLocaleString("fr-FR"),
+    action: action,
+    e: totals().e.toFixed(2)
+  });
+  logs = logs.slice(0, 100);
+  save();
+  render();
 }
 
 function render() {
   const t = totals();
 
   $("stats").textContent =
-    `Appareils : ${devices.length} | Puissance : ${t.p} W | Énergie : ${t.e.toFixed(2)} kWh/jour | Coût : ${t.c.toFixed(2)} FCFA/jour | Mois : ${(t.c * 30).toFixed(2)} FCFA`;
+    "Appareils : " + devices.length +
+    " | Puissance : " + t.p.toFixed(0) + " W" +
+    " | Énergie : " + t.e.toFixed(2) + " kWh/jour" +
+    " | Coût : " + t.c.toFixed(2) + " FCFA/jour" +
+    " | Mois : " + (t.c * 30).toFixed(2) + " FCFA";
 
-  $("times").textContent = times
-    .map(t => t.debut + " – " + t.fin)
-    .join(" ; ");
+  const timeList = $("times");
+  timeList.textContent = "";
 
-  $("list").innerHTML = "";
-
-  devices.forEach((a, i) => {
-    const div = document.createElement("div");
-    div.className = "row";
-    div.textContent = a.nom + " : " + a.puissance +
-      " W, " + a.duree + " h/jour";
-
-    const b = document.createElement("button");
-    b.textContent = "Supprimer";
-    b.onclick = () => {
-      devices.splice(i, 1);
-      record("Suppression");
-    };
-
-    div.append(b);
-    $("list").append(div);
+  times.forEach((t, i) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.append(document.createTextNode(t.debut + " – " + t.fin + " "));
+    row.append(button("Supprimer cet horaire", () => {
+      times.splice(i, 1);
+      render();
+    }));
+    timeList.append(row);
   });
 
-  $("logs").textContent = logs
-    .map(l => l.date + " — " + l.action + " : " + l.e + " kWh")
-    .join("\n") || "Aucun historique";
+  const list = $("list");
+  list.textContent = "";
+
+  devices.forEach((a, i) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.append(document.createTextNode(
+      String(a.nom || "Appareil") + " : " +
+      (Number(a.puissance) || 0) + " W, " +
+      (Number(a.duree) || 0) + " h/jour "
+    ));
+    row.append(button("Supprimer", () => {
+      devices.splice(i, 1);
+      record("Suppression");
+    }));
+    list.append(row);
+  });
+
+  if (!devices.length) list.textContent = "Aucun appareil enregistré.";
+
+  $("logs").textContent = logs.map(l =>
+    String(l.date || "") + " — " +
+    String(l.action || "Action") + " : " +
+    String(l.e || "0") + " kWh"
+  ).join("\n") || "Aucun historique";
 
   $("diagnostic").textContent =
     t.e > Number($("limit").value)
@@ -209,48 +251,42 @@ function render() {
       : "Consommation estimée : " + t.e.toFixed(2) + " kWh/jour";
 }
 
-function record(action) {
-  logs.unshift({
-    date: new Date().toLocaleString("fr-FR"),
-    action,
-    e: totals().e.toFixed(2)
+function showPage(id) {
+  document.querySelectorAll("section").forEach(s => {
+    s.classList.toggle("active", s.id === id);
   });
-  logs = logs.slice(0, 100);
-  save();
-  render();
 }
-$("addTime").onclick = () => {
+
+function addTime() {
   const debut = $("start").value;
   const fin = $("end").value;
+  const d = minutes(debut);
+  const f = minutes(fin);
 
-  if (!debut || !fin || min(fin) <= min(debut)) {
-    msg("Choisissez une heure de fin après l'heure de début.");
+  if (!Number.isFinite(d) || !Number.isFinite(f) || f <= d) {
+    msg("Choisis une heure de fin après l'heure de début.");
     return;
   }
 
-  if (times.some(t =>
-    min(debut) < min(t.fin) &&
-    min(fin) > min(t.debut)
-  )) {
+  if (times.some(t => d < minutes(t.fin) && f > minutes(t.debut))) {
     msg("Cet horaire chevauche un horaire déjà ajouté.");
     return;
   }
 
-  times.push({ debut, fin });
-
-  $("times").textContent = times
-    .map(t => t.debut + " – " + t.fin)
-    .join(" ; ");
-
+  times.push({debut, fin});
+  render();
   msg("Page horaire ajoutée avec succès.");
-};
-$("addDevice").onclick = () => {
+}
+
+function addDevice() {
   const nom = $("name").value.trim();
-  const puissance = Number($("power").value);
+  const puissance = Number($("power").value) * Number($("unit").value);
   const tarif = Number($("rate").value);
 
-  if (!nom || !(puissance > 0) || !(tarif >= 0) || !times.length) {
-    return msg("Renseignez le nom, la puissance et ajoutez une page horaire.");
+  if (!nom || !(puissance > 0) || !Number.isFinite(puissance) ||
+      !Number.isFinite(tarif) || tarif < 0 || !times.length) {
+    msg("Renseigne le nom, la puissance, le tarif et ajoute un horaire.");
+    return;
   }
 
   devices.push({
@@ -258,58 +294,69 @@ $("addDevice").onclick = () => {
     puissance,
     tarif,
     duree: times.reduce((s, t) => s + duration(t), 0),
-    pagesHoraires: times
+    pagesHoraires: times.slice()
   });
 
   times = [];
+  $("name").value = "";
   record("Ajout");
-  msg("Appareil ajouté");
-};
+  msg("Appareil ajouté avec succès.");
+}
 
-$("reset").onclick = () => {
-  if (confirm("Supprimer les appareils ?")) {
-    devices = [];
-    record("Réinitialisation");
-  }
-};
-
-$("clear").onclick = () => {
-  if (confirm("Effacer l'historique ?")) {
-    logs = [];
-    save();
-    render();
-  }
-};
-
-$("limit").oninput = render;
-
-$("connect").onclick = async () => {
+async function connectLCD() {
   try {
     if (!navigator.serial) {
-      $("lcd").textContent = "Web Serial indisponible sur cet appareil";
+      $("lcd").textContent = "Web Serial indisponible sur cet appareil.";
       return;
     }
-
     const port = await navigator.serial.requestPort();
     await port.open({baudRate: 9600});
     writer = port.writable.getWriter();
-
-    const t = totals();
-    await writer.write(
-      new TextEncoder().encode("ECOENERGIE " + t.c.toFixed(0) + "\n")
-    );
-
+    await writer.write(new TextEncoder().encode(
+      "ECOENERGIE " + totals().c.toFixed(0) + "\n"
+    ));
     $("lcd").textContent = "Connecté";
   } catch (e) {
     $("lcd").textContent = "Connexion impossible : " + e.message;
   }
-};
-
-render();
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./sw.js").catch(() => {});
 }
+
+function init() {
+  try {
+    devices = load("appareilsEco");
+    logs = load("historiqueEco");
+
+    document.querySelectorAll("[data-page]").forEach(b => {
+      b.addEventListener("click", () => showPage(b.dataset.page));
+    });
+
+    $("addTime").addEventListener("click", addTime);
+    $("addDevice").addEventListener("click", addDevice);
+    $("limit").addEventListener("input", render);
+    $("connect").addEventListener("click", connectLCD);
+
+    $("reset").addEventListener("click", () => {
+      if (confirm("Supprimer tous les appareils ?")) {
+        devices = [];
+        record("Réinitialisation");
+      }
+    });
+
+    $("clear").addEventListener("click", () => {
+      if (confirm("Effacer l'historique ?")) {
+        logs = [];
+        save();
+        render();
+      }
+    });
+
+    render();
+  } catch (e) {
+    error("Erreur de démarrage : " + e.message);
+  }
+}
+
+init();
 </script>
 </body>
 </html>
