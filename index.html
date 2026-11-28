@@ -519,7 +519,72 @@ fillPresets();
 $("preset").value="0";
 $("preset").dispatchEvent(new Event("change"));
 go("home");
+// QR code et partage de l'application
+const zonePartage = document.createElement("div");
+zonePartage.className = "panel";
+zonePartage.style.textAlign = "center";
 
+const titrePartage = document.createElement("h3");
+zonePartage.appendChild(titrePartage);
+
+const lienSite = "https://ecoenergieteam.github.io/EcoEnergie/";
+
+const qr = document.createElement("img");
+qr.src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" +
+    encodeURIComponent(lienSite);
+qr.alt = "QR code ÉcoÉnergie";
+qr.width = 180;
+qr.height = 180;
+zonePartage.appendChild(qr);
+
+const lien = document.createElement("a");
+lien.href = lienSite;
+lien.textContent = lienSite;
+lien.style.display = "block";
+lien.style.margin = "12px 0";
+lien.style.overflowWrap = "anywhere";
+zonePartage.appendChild(lien);
+
+const partager = document.createElement("button");
+zonePartage.appendChild(partager);
+
+function languePartage() {
+    const anglais = document.documentElement.lang === "en";
+    titrePartage.textContent = anglais
+        ? "Scan the QR code"
+        : "Scanner le QR code";
+    partager.textContent = anglais
+        ? "Share the app"
+        : "Partager l’application";
+}
+
+partager.onclick = async () => {
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: "ÉcoÉnergie",
+                url: lienSite
+            });
+        } catch (e) {
+            if (e.name !== "AbortError") {
+                prompt("Lien ÉcoÉnergie", lienSite);
+            }
+        }
+    } else {
+        prompt(
+            document.documentElement.lang === "en"
+                ? "Copy the link"
+                : "Copie le lien",
+            lienSite
+        );
+    }
+};
+
+document.querySelector("main").appendChild(zonePartage);
+languePartage();
+document.getElementById("lang").addEventListener(
+    "click", languePartage
+);
 </script>
 </body>
 </html>
