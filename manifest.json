@@ -1,6 +1,7 @@
 {
   "name": "ÉcoÉnergie",
   "short_name": "ÉcoÉnergie",
+  "id": "./?version=2",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
