@@ -473,6 +473,21 @@ document.addEventListener("DOMContentLoaded", function () {
         menu.appendChild(onglet);
     }
 }); 
+ document.addEventListener("DOMContentLoaded", function () {
+    const menu = document.querySelector("nav");
+
+    const boutonAccueil = Array.from(
+        document.querySelectorAll("button")
+    ).find(function (bouton) {
+        return !menu.contains(bouton) &&
+            bouton.textContent.trim().toLowerCase()
+                .includes("mode d’utilisation");
+    });
+
+    if (boutonAccueil) {
+        boutonAccueil.style.display = "none";
+    }
+});
 </script>
 </body>
 </html>
