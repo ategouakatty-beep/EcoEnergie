@@ -4,26 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ÉcoÉnergie</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#087e58">
+
 <style>
 *{box-sizing:border-box}
 body{
-margin:0;font:16px Arial,sans-serif;color:#234737;
-background:#eaf4eb;
-background-image:
-radial-gradient(ellipse at 0% 35%,#b9d9bf 0%,transparent 35%),
-radial-gradient(ellipse at 100% 75%,#c9e3cb 0%,transparent 35%);
-min-height:100vh
+  margin:0;
+  font:16px Arial,sans-serif;
+  color:#234737;
+  background:#eaf4eb;
+  background-image:
+    radial-gradient(ellipse at 0% 35%,#b9d9bf,transparent 35%),
+    radial-gradient(ellipse at 100% 75%,#c9e3cb,transparent 35%);
+  min-height:100vh;
 }
 header{
-background:linear-gradient(120deg,#075b42,#16966d);
-color:white;text-align:center;padding:24px 14px;
-border-radius:0 0 28px 28px
+  background:linear-gradient(120deg,#075b42,#16966d);
+  color:white;text-align:center;padding:24px 14px;
+  border-radius:0 0 28px 28px;
 }
 header h1{margin:8px;font-size:32px}
-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px}
+header p{margin:6px}
+nav{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;padding:16px;
+}
 button{
-font:inherit;font-weight:bold;border:0;border-radius:12px;
-padding:14px;background:#087e58;color:white;cursor:pointer
+  font:inherit;font-weight:bold;border:0;border-radius:12px;
+  padding:14px;background:#087e58;color:white;cursor:pointer;
 }
 nav button{background:white;color:#234737}
 nav button.active{background:#087e58;color:white}
@@ -32,123 +41,177 @@ section{display:none}
 section.active{display:block}
 [hidden]{display:none!important}
 .card{
-background:white;border-radius:24px;padding:22px;
-margin-bottom:18px;box-shadow:0 5px 20px #174c3020;
-position:relative;overflow:hidden
+  background:white;border-radius:24px;padding:22px;
+  margin-bottom:18px;box-shadow:0 5px 20px #174c3020;
+  position:relative;overflow:hidden;
 }
 .dashboard{
-min-height:350px;
-border:2px solid #c5dfcb;
-background:
-radial-gradient(ellipse at 0% 100%,#c6e3c9 0%,transparent 35%),
-radial-gradient(ellipse at 100% 0%,#d4ead6 0%,transparent 35%),
-white
+  min-height:350px;border:2px solid #c5dfcb;
+  background:
+    radial-gradient(ellipse at 0% 100%,#c6e3c9,transparent 35%),
+    radial-gradient(ellipse at 100% 0%,#d4ead6,transparent 35%),
+    white;
 }
 .leaves{font-size:35px;text-align:center;letter-spacing:12px}
 h2{color:#087e58;margin-top:0}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .stat{
-background:#f0f8f1;border:1px solid #d6e8da;
-border-radius:15px;padding:15px;text-align:center
+  background:#f0f8f1;border:1px solid #d6e8da;
+  border-radius:15px;padding:15px;text-align:center;
 }
-.value{font-size:25px;font-weight:bold;color:#087e58;margin-top:9px}
+.value{font-size:23px;font-weight:bold;color:#087e58;margin-top:9px}
 label{display:block;font-weight:bold;margin-top:14px}
 input,select{
-width:100%;font:inherit;padding:12px;margin-top:5px;
-border:1px solid #b7d4c0;border-radius:8px;background:white
+  width:100%;font:inherit;padding:12px;margin-top:5px;
+  border:1px solid #b7d4c0;border-radius:8px;background:white;
 }
 .full{width:100%;margin-top:12px}
 .row{background:#edf6ee;padding:13px;border-radius:12px;margin:10px 0}
-.row button{margin:5px}
-#message{color:#a32135;white-space:pre-wrap}
+.row button{margin:5px 5px 0 0}
 .danger{background:#b42336}
-#monitorTab.alert{background:#b00020!important;color:white!important;
-animation:flash 1s infinite}
+#message{color:#a32135;white-space:pre-wrap}
+#monitorTab.alert{
+  background:#b00020!important;color:white!important;
+  animation:flash 1s infinite;
+}
 @keyframes flash{50%{background:#ef5350}}
+.languages{display:flex;gap:10px}
+.languages button{flex:1}
+#qr{display:block;width:220px;max-width:100%;margin:16px auto}
+.notice{font-size:14px;color:#496b57}
+a{color:#087e58;overflow-wrap:anywhere}
 </style>
 </head>
+
 <body>
 <header>
-<div style="font-size:28px">🌿 ✦ 🌱</div>
-<h1>ÉcoÉnergie</h1>
-<p>Économiser • Protéger • Préserver</p>
+  <div style="font-size:28px">🌿 ✦ 🌱</div>
+  <h1>ÉcoÉnergie</h1>
+  <p>Économiser • Protéger • Préserver</p>
 </header>
+
 <nav>
-<button class="active" data-page="home">🏠 Accueil</button>
-<button data-page="devices">⚡ Appareils</button>
-<button id="monitorTab" data-page="monitor">🎯 Surveillance</button>
-<button data-page="history">📚 Historique</button>
+  <button class="active" data-page="home">🏠 Accueil</button>
+  <button data-page="devices">⚡ Appareils</button>
+  <button id="monitorTab" data-page="monitor">🎯 Surveillance</button>
+  <button data-page="history">📚 Historique</button>
+  <button data-page="modes">🌍 Modes d’utilisation</button>
 </nav>
+
 <main>
 <section id="home" class="active">
-<div class="card dashboard">
-<div class="leaves">🌿 🍃 🌱</div>
-<h2>🌿 Grand tableau de bord</h2>
-<div id="stats" class="stats"></div>
-<button class="full" data-page="devices">+ Ajouter un appareil</button>
-<button id="returnLive" class="full" hidden>Revenir aux données actuelles</button>
-</div>
-<div class="card">
-<h2>🔌 Écran LCD</h2>
-<p id="lcd">Écran non connecté.</p>
-<button id="connect" class="full">Connecter l’écran</button>
-</div>
+  <div class="card dashboard">
+    <div class="leaves">🌿 🍃 🌱</div>
+    <h2>🌿 Grand tableau de bord</h2>
+    <div id="stats" class="stats"></div>
+    <button class="full" data-page="devices">+ Ajouter un appareil</button>
+    <button id="returnLive" class="full" hidden>
+      Revenir aux données actuelles
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>🔌 Écran LCD</h2>
+    <p id="lcd">Écran non connecté.</p>
+    <button id="connect" class="full">Connecter l’écran</button>
+  </div>
 </section>
 
 <section id="devices">
-<div class="card">
-<h2>⚡ Ajouter un appareil</h2>
-<label>Pays</label>
-<select id="country"></select>
-<p id="currency"></p>
-<label>Tarif indicatif du kWh (modifiable)</label>
-<input id="rate" type="number" min="0" step="any">
-<label>Limite journalière (kWh)</label>
-<input id="limit" type="number" min="0" step="any">
-<label>Nom de l’appareil</label>
-<select id="choice">
-<option value="">Choisir un appareil</option>
-<option>Télévision</option><option>Réfrigérateur</option>
-<option>Ventilateur</option><option>Climatiseur</option>
-<option>Ampoule</option><option>Ordinateur</option>
-<option value="custom">Autre appareil</option>
-</select>
-<input id="custom" placeholder="Nom de ton appareil" hidden>
-<label>Puissance (W)</label>
-<input id="power" type="number" min="0" step="any">
-<label>Début</label>
-<input id="start" type="time" value="08:00">
-<label>Fin</label>
-<input id="end" type="time" value="10:00">
-<button id="addTime" class="full">Ajouter une page horaire</button>
-<div id="times"></div>
-<button id="addDevice" class="full">Ajouter l’appareil</button>
-<p id="message" role="status"></p>
-</div>
-<div class="card">
-<h2>Appareils enregistrés</h2>
-<div id="list"></div>
-</div>
+  <div class="card">
+    <h2>⚡ Ajouter un appareil</h2>
+
+    <label for="country">Pays</label>
+    <select id="country"></select>
+    <p id="currency"></p>
+
+    <label for="rate">Tarif du kWh (modifiable)</label>
+    <input id="rate" type="number" min="0" step="any">
+
+    <label for="limit">Limite journalière (kWh)</label>
+    <input id="limit" type="number" min="0" step="any">
+
+    <label for="choice">Nom de l’appareil</label>
+    <select id="choice">
+      <option value="">Choisir un appareil</option>
+      <option>Télévision</option>
+      <option>Réfrigérateur</option>
+      <option>Ventilateur</option>
+      <option>Climatiseur</option>
+      <option>Ampoule</option>
+      <option>Ordinateur</option>
+      <option value="custom">Autre appareil</option>
+    </select>
+    <input id="custom" placeholder="Nom de ton appareil" hidden>
+
+    <label for="power">Puissance (W)</label>
+    <input id="power" type="number" min="0" step="any">
+
+    <label for="start">Début</label>
+    <input id="start" type="time" value="08:00">
+
+    <label for="end">Fin</label>
+    <input id="end" type="time" value="10:00">
+
+    <button id="addTime" class="full">+ Ajouter une page horaire</button>
+    <div id="times"></div>
+
+    <button id="addDevice" class="full">Ajouter l’appareil</button>
+    <p id="message" role="status"></p>
+  </div>
+
+  <div class="card">
+    <h2>Appareils enregistrés</h2>
+    <div id="list"></div>
+  </div>
 </section>
 
 <section id="monitor">
-<div class="card">
-<h2>🌱 Conseils écologiques</h2>
-<div id="tips"></div>
-</div>
+  <div class="card">
+    <h2>🌱 Surveillance et conseils</h2>
+    <div id="tips"></div>
+  </div>
 </section>
 
 <section id="history">
-<div class="card">
-<h2>📚 Historique des analyses</h2>
-<div id="logs"></div>
-</div>
+  <div class="card">
+    <h2>📚 Historique des analyses</h2>
+    <div id="logs"></div>
+  </div>
+</section>
+
+<section id="modes">
+  <div class="card dashboard">
+    <div class="leaves">🌿 🍃 🌱</div>
+    <h2 id="modeTitle">🌍 Modes d’utilisation</h2>
+
+    <div class="languages">
+      <button id="langFR">Français</button>
+      <button id="langEN">English</button>
+    </div>
+
+    <div id="modeText"></div>
+  </div>
+
+  <div class="card">
+    <h2 id="qrTitle">📱 Accéder à ÉcoÉnergie</h2>
+    <p id="qrText">Scannez ce QR code pour ouvrir l’application.</p>
+    <img id="qr" alt="QR code ÉcoÉnergie">
+    <p><a id="siteLink" href="https://ategouakatty-beep.github.io/EcoEnergie/">
+      Ouvrir ÉcoÉnergie
+    </a></p>
+    <p class="notice" id="qrNote">
+      Le QR code ouvre l’application web dans le navigateur.
+    </p>
+  </div>
 </section>
 </main>
+
 <script>
 "use strict";
 
 const $ = id => document.getElementById(id);
+const site = "https://ategouakatty-beep.github.io/EcoEnergie/";
 
 const countries = {
   "Togo":["XOF",125],
@@ -168,185 +231,140 @@ const countries = {
 };
 
 let state = {
-  devices: [],
-  logs: [],
-  rates: {},
-  country: "Togo",
-  limit: 5
+  devices:[],logs:[],rates:{},country:"Togo",limit:5
 };
 
 try {
-  const saved = JSON.parse(
-    localStorage.getItem("ecoV4") || "{}"
-  );
-  if (saved && typeof saved === "object") {
-    state = {...state, ...saved};
+  const saved = JSON.parse(localStorage.getItem("ecoV4") || "{}");
+  if(saved && typeof saved === "object"){
+    state = {...state,...saved};
   }
-} catch (e) {}
+} catch(e){}
 
-function cleanDevices(arr) {
-  if (!Array.isArray(arr)) return [];
-  return arr.filter(a =>
-    a && typeof a === "object"
-  ).map(a => ({
-    name: String(a.name || "Appareil"),
-    w: Math.max(0, Number(a.w) || 0),
-    h: Math.max(0, Number(a.h) || 0),
-    r: Math.max(0, Number(a.r) || 0),
-    currency: String(a.currency || "XOF")
+function cleanDevices(arr){
+  if(!Array.isArray(arr)) return [];
+  return arr.filter(a => a && typeof a === "object").map(a => ({
+    name:String(a.name || "Appareil"),
+    w:Math.max(0,Number(a.w) || 0),
+    h:Math.max(0,Number(a.h) || 0),
+    r:Math.max(0,Number(a.r) || 0),
+    currency:String(a.currency || "XOF")
   }));
 }
 
 state.devices = cleanDevices(state.devices);
 state.logs = Array.isArray(state.logs)
   ? state.logs.filter(l => l && Array.isArray(l.devices))
-      .map(l => ({
-        ...l,
-        devices: cleanDevices(l.devices)
-      }))
+      .map(l => ({...l,devices:cleanDevices(l.devices)}))
   : [];
 
-if (!state.rates || typeof state.rates !== "object") {
-  state.rates = {};
-}
-if (!countries[state.country]) state.country = "Togo";
-state.limit = Math.max(0, Number(state.limit) || 0);
+if(!state.rates || typeof state.rates !== "object") state.rates = {};
+if(!countries[state.country]) state.country = "Togo";
+state.limit = Math.max(0,Number(state.limit) || 0);
 
 let times = [];
 let view = null;
 
-function save() {
+function save(){
   try {
-    localStorage.setItem("ecoV4", JSON.stringify(state));
-  } catch (e) {
-    $("message").textContent =
-      "Enregistrement local indisponible.";
+    localStorage.setItem("ecoV4",JSON.stringify(state));
+  } catch(e){
+    $("message").textContent = "Enregistrement local indisponible.";
   }
 }
 
-function money(c) {
-  if (c === "XOF") return "FCFA (XOF)";
-  if (c === "XAF") return "FCFA (XAF)";
-  return c;
+function money(c){
+  return c === "XOF" || c === "XAF" ? "FCFA ("+c+")" : c;
 }
 
-function show(page) {
+function show(page){
   const target = $(page);
-  if (!target || target.tagName !== "SECTION") return;
+  if(!target || target.tagName !== "SECTION") return;
 
   document.querySelectorAll("section").forEach(s => {
-    s.classList.toggle("active", s.id === page);
+    s.classList.toggle("active",s.id === page);
   });
 
   document.querySelectorAll("nav button").forEach(b => {
-    b.classList.toggle("active", b.dataset.page === page);
+    b.classList.toggle("active",b.dataset.page === page);
   });
 
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
-function safeRender() {
-  try {
-    render();
-  } catch (e) {
-    console.error(e);
-    $("message").textContent =
-      "Erreur d’affichage : " + e.message;
-  }
-}
-
-document.querySelectorAll("[data-page]").forEach(b => {
-  b.addEventListener("click", () => {
-    if (b.dataset.page === "home") view = null;
-    show(b.dataset.page);
-    safeRender();
-  });
-});
-
-function countryUI() {
-  const c = countries[state.country];
-  $("currency").textContent =
-    "Monnaie : " + money(c[0]) + " — Tarif modifiable";
-  $("rate").value = state.rates[state.country] ?? c[1] ?? "";
-}
-
-function btn(label, fn) {
-  const b = document.createElement("button");
-  b.type = "button";
-  b.textContent = label;
-  b.addEventListener("click", fn);
-  return b;
-}
-
-function row(label) {
+function row(label){
   const d = document.createElement("div");
   d.className = "row";
   d.textContent = label;
   return d;
 }
 
-function totals(devices) {
+function btn(label,fn){
+  const b = document.createElement("button");
+  b.type = "button";
+  b.textContent = label;
+  b.addEventListener("click",fn);
+  return b;
+}
+
+function totals(devices){
   let p = 0, e = 0, costs = {};
   devices.forEach(a => {
     const k = a.w * a.h / 1000;
     p += a.w;
     e += k;
-    costs[a.currency] =
-      (costs[a.currency] || 0) + k * a.r;
+    costs[a.currency] = (costs[a.currency] || 0) + k * a.r;
   });
-  return {p, e, costs};
+  return {p,e,costs};
 }
 
-function minutes(t) {
-  if (!t || !t.includes(":")) return NaN;
-  const [h, m] = t.split(":").map(Number);
+function costText(costs,multiplier){
+  return Object.entries(costs)
+    .map(([c,v]) => (v * multiplier).toFixed(2) + " " + money(c))
+    .join(" / ") || "0";
+}
+
+function countryUI(){
+  const c = countries[state.country];
+  $("currency").textContent = "Monnaie : " + money(c[0]) +
+    " — Tarif indicatif modifiable";
+  $("rate").value = state.rates[state.country] ?? c[1] ?? "";
+}
+
+function minutes(t){
+  if(!t || !t.includes(":")) return NaN;
+  const [h,m] = t.split(":").map(Number);
   return h * 60 + m;
 }
 
-function renderTimes() {
+function renderTimes(){
   $("times").replaceChildren();
-  times.forEach((t, i) => {
+  times.forEach((t,i) => {
     const d = row(t.a + " – " + t.b + " ");
-    d.append(btn("Supprimer", () => {
-      times.splice(i, 1);
+    d.append(btn("Supprimer",() => {
+      times.splice(i,1);
       renderTimes();
     }));
     $("times").append(d);
   });
 }
 
-function render() {
+function render(){
   const devices = view ? view.devices : state.devices;
   const t = totals(devices);
 
   $("stats").replaceChildren();
 
   const stats = [
-  ["Appareils", devices.length],
+    ["Appareils",devices.length],
+    ["Puissance totale",t.p.toFixed(0) + " W"],
+    ["Consommation journalière",t.e.toFixed(2) + " kWh/j"],
+    ["Consommation mensuelle",(t.e * 30).toFixed(2) + " kWh/mois"],
+    ["Coût journalier",costText(t.costs,1)],
+    ["Coût mensuel",costText(t.costs,30)]
+  ];
 
-  ["Puissance totale",
-    t.p.toFixed(0) + " W"],
-
-  ["Consommation journalière",
-    t.e.toFixed(2) + " kWh/j"],
-
-  ["Consommation mensuelle",
-    (t.e * 30).toFixed(2) + " kWh/mois"],
-
-  ["Coût journalier",
-    Object.entries(t.costs)
-      .map(([c, v]) =>
-        v.toFixed(2) + " " + money(c)
-      ).join(" / ") || "0"],
-
-  ["Coût mensuel",
-    Object.entries(t.costs)
-      .map(([c, v]) =>
-        (v * 30).toFixed(2) + " " + money(c)
-      ).join(" / ") || "0"]
-];
-
-  stats.forEach(([label, value]) => {
+  stats.forEach(([label,value]) => {
     const d = document.createElement("div");
     d.className = "stat";
     d.textContent = label;
@@ -358,60 +376,102 @@ function render() {
   });
 
   $("returnLive").hidden = !view;
-  $("monitorTab").classList.toggle(
-    "alert", totals(state.devices).e > state.limit
-  );
+
+  const live = totals(state.devices);
+  $("monitorTab").classList.toggle("alert",live.e > state.limit);
 
   $("tips").replaceChildren();
-  if (!state.devices.length) {
+
+  if(!state.devices.length){
     $("tips").append(row("Ajoute un appareil pour obtenir des conseils."));
   }
 
-  state.devices.forEach(a => {
-    let advice = /climatiseur/i.test(a.name)
-      ? "Réduis sa durée d’utilisation."
-      : "Éteins-le lorsqu’il n’est pas nécessaire.";
-    $("tips").append(row(
-      a.name + " : " +
-      (a.w * a.h / 1000).toFixed(2) +
-      " kWh/j. " + advice
-    ));
-  });
+  $("tips").append(row(
+    "Consommation actuelle : " + live.e.toFixed(2) +
+    " kWh/j — Limite : " + state.limit + " kWh/j"
+  ));
+
+  if(live.e > state.limit){
+    $("tips").append(row("⚠️ Limite dépassée : réduis les utilisations les plus énergivores."));
+  }
+
+  [...state.devices]
+    .sort((a,b) => b.w * b.h - a.w * a.h)
+    .forEach(a => {
+      let advice = /climatiseur/i.test(a.name)
+        ? "Réduis sa durée d’utilisation et ferme les fenêtres."
+        : "Éteins-le lorsqu’il n’est pas nécessaire.";
+
+      $("tips").append(row(
+        a.name + " : " + (a.w * a.h / 1000).toFixed(2) +
+        " kWh/j. " + advice
+      ));
+    });
 
   $("list").replaceChildren();
-  state.devices.forEach((a, i) => {
-    const d = row(a.name + " — " + a.w + " W — " +
-      a.h.toFixed(2) + " h/j ");
-    d.append(btn("Supprimer", () => {
-      state.devices.splice(i, 1);
+
+  if(!state.devices.length){
+    $("list").append(row("Aucun appareil enregistré."));
+  }
+
+  state.devices.forEach((a,i) => {
+    const d = row(
+      a.name + " — " + a.w + " W — " +
+      a.h.toFixed(2) + " h/j "
+    );
+
+    d.append(btn("Supprimer",() => {
+      if(!confirm("Supprimer cet appareil ?")) return;
+      state.devices.splice(i,1);
+      view = null;
       save();
-      safeRender();
+      render();
     }));
+
     $("list").append(d);
   });
 
   $("logs").replaceChildren();
-  state.logs.forEach((l, i) => {
+
+  if(!state.logs.length){
+    $("logs").append(row("Aucune analyse enregistrée."));
+  }
+
+  state.logs.forEach((l,i) => {
     const d = row(l.date || "Analyse");
-    d.append(btn("Voir l’analyse", () => {
+
+    d.append(btn("Voir l’analyse",() => {
       view = l;
       show("home");
-      safeRender();
+      render();
     }));
-    d.append(btn("Supprimer", () => {
-      if (confirm("Supprimer cette analyse ?")) {
-        state.logs.splice(i, 1);
+
+    d.append(btn("Supprimer",() => {
+      if(confirm("Supprimer uniquement cette analyse ?")){
+        state.logs.splice(i,1);
         save();
-        safeRender();
+        render();
       }
     }));
+
     $("logs").append(d);
   });
 }
 
-Object.keys(countries).forEach(c => {
-  $("country").add(new Option(c, c));
+document.querySelectorAll("[data-page]").forEach(b => {
+  b.addEventListener("click",() => {
+    if(b.dataset.page === "home") view = null;
+    show(b.dataset.page);
+  });
 });
+
+Object.keys(countries).forEach(c => {
+  const o = document.createElement("option");
+  o.value = c;
+  o.textContent = c;
+  $("country").append(o);
+});
+
 $("country").value = state.country;
 
 $("country").onchange = () => {
@@ -421,17 +481,19 @@ $("country").onchange = () => {
 };
 
 $("rate").oninput = () => {
-  if ($("rate").value !== "" && Number($("rate").value) >= 0) {
-    state.rates[state.country] = Number($("rate").value);
+  const value = $("rate").value;
+  if(value !== "" && Number(value) >= 0){
+    state.rates[state.country] = Number(value);
+    save();
   }
-  save();
 };
 
 $("limit").value = state.limit;
+
 $("limit").oninput = () => {
-  state.limit = Math.max(0, Number($("limit").value) || 0);
+  state.limit = Math.max(0,Number($("limit").value) || 0);
   save();
-  safeRender();
+  render();
 };
 
 $("choice").onchange = () => {
@@ -441,16 +503,16 @@ $("choice").onchange = () => {
 $("addTime").onclick = () => {
   const a = $("start").value;
   const b = $("end").value;
-  const d = minutes(a), f = minutes(b);
+  const d = minutes(a);
+  const f = minutes(b);
 
-  if (!Number.isFinite(d) || !Number.isFinite(f) ||
-      f <= d ||
-      times.some(t => d < minutes(t.b) && f > minutes(t.a))) {
+  if(!Number.isFinite(d) || !Number.isFinite(f) || f <= d ||
+     times.some(t => d < minutes(t.b) && f > minutes(t.a))){
     $("message").textContent = "Horaire invalide ou chevauchant.";
     return;
   }
 
-  times.push({a, b});
+  times.push({a,b});
   $("message").textContent = "";
   renderTimes();
 };
@@ -463,26 +525,25 @@ $("addDevice").onclick = () => {
   const w = Number($("power").value);
   const r = Number($("rate").value);
 
-  if (!name || !(w > 0) || $("rate").value === "" ||
-      !Number.isFinite(r) || r < 0 || !times.length) {
+  if(!name || !(w > 0) || $("rate").value === "" ||
+     !Number.isFinite(r) || r < 0 || !times.length){
     $("message").textContent =
-      "Renseigne le nom, la puissance, le tarif et un horaire.";
+      "Renseigne le nom, la puissance, le tarif et ajoute un horaire.";
     return;
   }
 
   const h = times.reduce(
-    (v, t) => v + (minutes(t.b) - minutes(t.a)) / 60, 0
+    (v,t) => v + (minutes(t.b) - minutes(t.a)) / 60,0
   );
 
   state.devices.push({
-    name, w, h, r,
-    currency: countries[state.country][0]
+    name,w,h,r,currency:countries[state.country][0]
   });
 
   state.logs.unshift({
-    date: new Date().toLocaleString(),
-    devices: JSON.parse(JSON.stringify(state.devices)),
-    limit: state.limit
+    date:new Date().toLocaleString(),
+    devices:JSON.parse(JSON.stringify(state.devices)),
+    limit:state.limit
   });
 
   times = [];
@@ -496,40 +557,91 @@ $("addDevice").onclick = () => {
   save();
   renderTimes();
   show("home");
-  safeRender();
+  render();
 };
 
 $("returnLive").onclick = () => {
   view = null;
-  safeRender();
+  render();
 };
 
 $("connect").onclick = async () => {
   try {
-    if (!navigator.serial) {
+    if(!navigator.serial){
       $("lcd").textContent =
         "Connexion série indisponible sur cet appareil.";
       return;
     }
 
     const port = await navigator.serial.requestPort();
-    await port.open({baudRate: 9600});
+    await port.open({baudRate:9600});
     const writer = port.writable.getWriter();
 
     await writer.write(new TextEncoder().encode(
-      "ECOENERGIE " +
-      totals(state.devices).e.toFixed(2) + "\n"
+      "ECOENERGIE " + totals(state.devices).e.toFixed(2) + "\n"
     ));
 
+    writer.releaseLock();
     $("lcd").textContent = "Écran connecté.";
-  } catch (e) {
+  } catch(e){
     $("lcd").textContent = "Connexion impossible : " + e.message;
   }
 };
 
+function setLanguage(lang){
+  const en = lang === "en";
+  document.documentElement.lang = en ? "en" : "fr";
+
+  $("modeTitle").textContent = en
+    ? "🌍 How to use the application"
+    : "🌍 Modes d’utilisation";
+
+  $("modeText").innerHTML = en
+    ? `<h3>Daily mode</h3>
+       <p>Track your appliances’ daily energy consumption and cost.</p>
+       <h3>Monthly mode</h3>
+       <p>View monthly consumption and estimate your electricity bill.
+       The monthly estimate is based on 30 days.</p>`
+    : `<h3>Mode journalier</h3>
+       <p>Suivez la consommation et le coût de vos appareils pour une journée.</p>
+       <h3>Mode mensuel</h3>
+       <p>Consultez la consommation mensuelle et estimez votre facture.
+       Le calcul mensuel est basé sur 30 jours.</p>`;
+
+  $("qrTitle").textContent = en
+    ? "📱 Open ÉcoÉnergie"
+    : "📱 Accéder à ÉcoÉnergie";
+
+  $("qrText").textContent = en
+    ? "Scan this QR code to open the application."
+    : "Scannez ce QR code pour ouvrir l’application.";
+
+  $("qrNote").textContent = en
+    ? "The QR code opens the web application in your browser."
+    : "Le QR code ouvre l’application web dans le navigateur.";
+
+  $("siteLink").textContent = en
+    ? "Open ÉcoÉnergie"
+    : "Ouvrir ÉcoÉnergie";
+}
+
+$("langFR").onclick = () => setLanguage("fr");
+$("langEN").onclick = () => setLanguage("en");
+
+$("qr").src =
+  "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+  encodeURIComponent(site);
+
+$("siteLink").href = site;
+
 countryUI();
+setLanguage("fr");
 renderTimes();
-safeRender();
+render();
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("./sw.js").catch(() => {});
+}
 </script>
 </body>
 </html>
