@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ÉcoÉnergie</title>
 <style>
 *{box-sizing:border-box}
@@ -22,27 +22,31 @@ section.active{display:block}
 .card strong{display:block;font-size:1.25rem;margin-top:8px}
 label{display:block;margin:12px 0 5px}
 input,select{width:100%;background:white;color:#173d28}
-button.full{width:100%;margin-top:12px}
+.full{width:100%;margin-top:12px}
 .item{padding:12px;border-bottom:1px solid #d9e6db}
-.warning{color:#b00020;font-weight:bold}
 .lcd{background:#173c29;color:#b8ffbf;padding:18px;border-radius:12px;margin-top:20px}
 .lcd pre{white-space:pre-wrap;font:16px monospace}
 .lcd button{margin:4px}
+.warning{color:#b00020;font-weight:bold}
 small{display:block;margin:10px 0}
 </style>
 </head>
 <body>
 <header>
-<div><h1>ÉcoÉnergie</h1><small data-t="team"></small></div>
+<div>
+<h1>ÉcoÉnergie</h1>
+<small data-t="team"></small>
+</div>
 <button id="lang">English</button>
 </header>
-<nav id="nav"></nav>
-<main>
 
-<section id="home">
+<nav id="nav"></nav>
+
+<main>
+<section id="home" class="active">
 <h2 data-t="home"></h2>
-<div class="cards" id="stats"></div>
-<button class="full" data-go="devices" data-t="addDevice"></button>
+<div id="stats" class="cards"></div>
+<button class="full" data-go="devices" data-t="add"></button>
 
 <div class="lcd">
 <h2>LCD</h2>
@@ -55,18 +59,37 @@ small{display:block;margin:10px 0}
 
 <section id="devices">
 <h2 data-t="devices"></h2>
-<label data-t="country"></label><select id="country"></select>
-<label data-t="tariff"></label><input id="rate" type="number" min="0" step="any">
-<label data-t="limit"></label><input id="limit" type="number" min="0" step="any">
-<button class="full" id="saveSettings" data-t="save"></button>
+<label for="country" data-t="country"></label>
+<select id="country"></select>
+
+<label for="rate" data-t="rate"></label>
+<input id="rate" type="number" min="0" step="any">
+
+<label for="limit" data-t="limit"></label>
+<input id="limit" type="number" min="0" step="any">
+
+<button id="save" class="full" data-t="save"></button>
+<p data-t="rateNote"></p>
 <hr>
-<label data-t="name"></label><input id="name">
-<label data-t="power"></label><input id="power" type="number" min="0" step="any">
-<label data-t="start"></label><input id="start" type="time">
-<label data-t="end"></label><input id="end" type="time">
-<button class="full" id="addSlot" data-t="addSlot"></button>
+
+<h3 data-t="add"></h3>
+<label for="name" data-t="name"></label>
+<input id="name">
+
+<label for="power" data-t="power"></label>
+<input id="power" type="number" min="0" step="any">
+
+<label for="start" data-t="start"></label>
+<input id="start" type="time" value="08:00">
+
+<label for="end" data-t="end"></label>
+<input id="end" type="time" value="10:00">
+
+<button id="addSlot" class="full" data-t="slot"></button>
 <div id="slots"></div>
-<button class="full" id="add" data-t="addDevice"></button>
+
+<button id="add" class="full" data-t="add"></button>
+<p id="message" role="status"></p>
 <div id="deviceList"></div>
 </section>
 
@@ -87,240 +110,491 @@ small{display:block;margin:10px 0}
 </main>
 
 <script>
-const fr={
-team:"Les apprentis inventeurs",home:"Accueil",devices:"Appareils",
-monitor:"Surveillance",history:"Historique",guide:"Mode d’utilisation",
-addDevice:"Ajouter un appareil",country:"Pays et devise",tariff:"Tarif par kWh",
-limit:"Limite quotidienne (kWh)",save:"Enregistrer les réglages",
-name:"Nom de l’appareil",power:"Puissance (W)",start:"Heure de début",
-end:"Heure de fin",addSlot:"Ajouter un créneau",connect:"Connecter le LCD",
-send:"Envoyer au LCD",count:"Nombre d’appareils",total:"Puissance totale",
-daily:"Consommation/jour",monthly:"Consommation/mois",
-cost:"Coût/jour",monthCost:"Coût/mois",remove:"Supprimer",
-invalid:"Vérifie les valeurs saisies.",saved:"Réglages enregistrés",
-exceeded:"Limite dépassée",normal:"Consommation dans la limite",
+"use strict";
+
+const fr = {
+team:"Les apprentis inventeurs",
+home:"Accueil",
+devices:"Appareils",
+monitor:"Surveillance",
+history:"Historique",
+guide:"Mode d’utilisation",
+add:"Ajouter un appareil",
+country:"Pays et devise",
+rate:"Tarif par kWh",
+limit:"Limite quotidienne (kWh)",
+save:"Enregistrer les réglages",
+rateNote:"Tarif indicatif : saisis le tarif réel de ton fournisseur.",
+name:"Nom de l’appareil",
+power:"Puissance (W)",
+start:"Heure de début",
+end:"Heure de fin",
+slot:"Ajouter un créneau",
+remove:"Supprimer",
+count:"Nombre d’appareils",
+total:"Puissance totale",
+daily:"Consommation/jour",
+monthly:"Consommation/mois",
+cost:"Coût/jour",
+monthCost:"Coût/mois",
+invalid:"Vérifie les valeurs saisies.",
+noSlots:"Ajoute au moins un créneau.",
+saved:"Réglages enregistrés.",
+normal:"Consommation dans la limite.",
+exceeded:"Limite dépassée.",
+advice:"Réduis la durée d’utilisation des appareils les plus consommateurs.",
+empty:"Aucun élément.",
+connect:"Connecter le LCD",
+send:"Envoyer au LCD",
 unsupported:"Connexion série non prise en charge sur cet appareil.",
-connected:"LCD connecté",failed:"Connexion impossible",
-noSlots:"Ajoute au moins un créneau.",sent:"Données envoyées",
-steps:["Ouvre l’application et va dans Appareils.",
-"Choisis le pays, vérifie le tarif et fixe la limite quotidienne.",
+connected:"LCD connecté.",
+failed:"Connexion ou envoi impossible.",
+sent:"Données envoyées.",
+steps:[
+"Ouvre l’application : tu arrives sur l’accueil.",
+"Va dans Appareils et choisis le pays.",
+"Vérifie le tarif et fixe la limite quotidienne, puis enregistre les réglages.",
 "Saisis le nom et la puissance du premier appareil.",
 "Indique les heures de début et de fin, puis ajoute le créneau.",
-"Ajoute l’appareil et répète ces étapes pour les autres appareils.",
-"Consulte l’accueil, la surveillance et l’historique.",
-"Depuis l’accueil, connecte le LCD si ton appareil est compatible."]
+"Ajoute l’appareil. Répète ces étapes pour les autres appareils.",
+"Consulte les résultats sur l’accueil.",
+"Vérifie la limite dans Surveillance et consulte les rapports dans Historique.",
+"Depuis l’accueil, connecte le LCD si ton appareil est compatible."
+]
 };
-const en={
-team:"The apprentice inventors",home:"Home",devices:"Devices",
-monitor:"Monitoring",history:"History",guide:"User guide",
-addDevice:"Add a device",country:"Country and currency",tariff:"Price per kWh",
-limit:"Daily limit (kWh)",save:"Save settings",
-name:"Device name",power:"Power (W)",start:"Start time",
-end:"End time",addSlot:"Add time slot",connect:"Connect LCD",
-send:"Send to LCD",count:"Number of devices",total:"Total power",
-daily:"Daily consumption",monthly:"Monthly consumption",
-cost:"Daily cost",monthCost:"Monthly cost",remove:"Delete",
-invalid:"Check the values entered.",saved:"Settings saved",
-exceeded:"Limit exceeded",normal:"Consumption within the limit",
+
+const en = {
+team:"The apprentice inventors",
+home:"Home",
+devices:"Devices",
+monitor:"Monitoring",
+history:"History",
+guide:"User guide",
+add:"Add a device",
+country:"Country and currency",
+rate:"Price per kWh",
+limit:"Daily limit (kWh)",
+save:"Save settings",
+rateNote:"Indicative rate: enter your actual electricity supplier rate.",
+name:"Device name",
+power:"Power (W)",
+start:"Start time",
+end:"End time",
+slot:"Add time slot",
+remove:"Delete",
+count:"Number of devices",
+total:"Total power",
+daily:"Daily consumption",
+monthly:"Monthly consumption",
+cost:"Daily cost",
+monthCost:"Monthly cost",
+invalid:"Check the values entered.",
+noSlots:"Add at least one time slot.",
+saved:"Settings saved.",
+normal:"Consumption within the limit.",
+exceeded:"Limit exceeded.",
+advice:"Reduce the operating time of the devices that consume the most.",
+empty:"No items.",
+connect:"Connect LCD",
+send:"Send to LCD",
 unsupported:"Serial connection is not supported on this device.",
-connected:"LCD connected",failed:"Connection failed",
-noSlots:"Add at least one time slot.",sent:"Data sent",
-steps:["Open the application and go to Devices.",
-"Select the country, check the tariff and set the daily limit.",
+connected:"LCD connected.",
+failed:"Connection or transmission failed.",
+sent:"Data sent.",
+steps:[
+"Open the application: the Home page appears.",
+"Go to Devices and select your country.",
+"Check the rate and set the daily limit, then save the settings.",
 "Enter the name and power of the first device.",
 "Set the start and end times, then add the time slot.",
-"Add the device and repeat these steps for the other devices.",
-"Review Home, Monitoring and History.",
-"From Home, connect the LCD if your device is compatible."]
+"Add the device. Repeat these steps for the other devices.",
+"Review the results on Home.",
+"Check the limit in Monitoring and review reports in History.",
+"From Home, connect the LCD if your device is compatible."
+]
 };
-const countries={
-"Togo":["XOF",125],"Bénin":["XOF",125],"Sénégal":["XOF",125],
-"Mali":["XOF",125],"Burkina Faso":["XOF",125],"Côte d’Ivoire":["XOF",125],
-"Cameroun":["XAF",80],"France":["EUR",0.25],"Ghana":["GHS",1],
-"Nigeria":["NGN",1],"Maroc":["MAD",1],"Algérie":["DZD",1],
-"Kenya":["KES",1],"Afrique du Sud":["ZAR",1]
+
+const countries = {
+"Togo":["XOF",125],
+"Bénin":["XOF",125],
+"Sénégal":["XOF",125],
+"Mali":["XOF",125],
+"Burkina Faso":["XOF",125],
+"Côte d’Ivoire":["XOF",125],
+"Cameroun":["XAF",80],
+"France":["EUR",0.25],
+"Ghana":["GHS",0],
+"Nigeria":["NGN",0],
+"Maroc":["MAD",0],
+"Algérie":["DZD",0],
+"Kenya":["KES",0],
+"Afrique du Sud":["ZAR",0]
 };
-let state={devices:[],logs:[],rates:{},country:"Togo",limit:5};
-let lang="fr",page="home",slots=[],port=null;
-try{
-let s=JSON.parse(localStorage.getItem("ecoV4")||"{}");
-state={...state,...s};
-if(!Array.isArray(state.devices))state.devices=[];
-if(!Array.isArray(state.logs))state.logs=[];
-if(!state.rates||typeof state.rates!=="object")state.rates={};
-lang=localStorage.getItem("ecoLang")==="en"?"en":"fr";
-}catch(e){}
-if(!countries[state.country])state.country="Togo";
-const $=id=>document.getElementById(id);
-const t=k=>(lang==="fr"?fr:en)[k]||k;
-function store(){
-try{
+
+const $ = id => document.getElementById(id);
+const initial = {
+devices:[],
+logs:[],
+rates:{},
+country:"Togo",
+limit:5
+};
+
+let state = {...initial};
+let lang = "fr";
+let page = "home";
+let slots = [];
+let port = null;
+let lcdStatusKey = "";
+
+try {
+const saved = JSON.parse(localStorage.getItem("ecoV4") || "null");
+if(saved && typeof saved === "object"){
+state = {...initial,...saved};
+}
+lang = localStorage.getItem("ecoLang") === "en" ? "en" : "fr";
+} catch(error) {
+state = {...initial};
+}
+
+if(!Array.isArray(state.devices)) state.devices = [];
+if(!Array.isArray(state.logs)) state.logs = [];
+if(!state.rates || typeof state.rates !== "object") state.rates = {};
+if(!Object.prototype.hasOwnProperty.call(countries,state.country)){
+state.country = "Togo";
+}
+if(!Number.isFinite(Number(state.limit)) || Number(state.limit) < 0){
+state.limit = 5;
+}
+
+function t(key){
+return (lang === "fr" ? fr : en)[key] || key;
+}
+
+function saveState(){
+try {
 localStorage.setItem("ecoV4",JSON.stringify(state));
 localStorage.setItem("ecoLang",lang);
-}catch(e){}
+} catch(error) {
+$("message").textContent = lang === "fr"
+? "Enregistrement local indisponible."
+: "Local storage is unavailable.";
 }
-function el(tag,txt,parent){
-let x=document.createElement(tag);
-if(txt!==undefined)x.textContent=txt;
-if(parent)parent.appendChild(x);
-return x;
 }
-function fmt(n){
-return Number(n||0).toLocaleString(lang==="fr"?"fr-FR":"en-US",
-{maximumFractionDigits:2});
+
+function element(tag,text,parent){
+const node = document.createElement(tag);
+if(text !== undefined) node.textContent = String(text);
+if(parent) parent.appendChild(node);
+return node;
 }
-function rate(){
-return Number(state.rates[state.country]??countries[state.country][1]);
+
+function clear(id){
+$(id).replaceChildren();
 }
-function totals(devices=state.devices){
-let w=0,k=0,c={};
-devices.forEach(d=>{
-let p=Number(d.w)||0,h=Number(d.h)||0,r=Number(d.r)||0;
-w+=p;k+=p*h/1000;
-let cur=d.currency||countries[state.country][0];
-c[cur]=(c[cur]||0)+p*h/1000*r;
+
+function number(value){
+const n = Number(value);
+return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
+function fmt(value){
+return number(value).toLocaleString(
+lang === "fr" ? "fr-FR" : "en-US",
+{maximumFractionDigits:2}
+);
+}
+
+function currentRate(){
+const r = state.rates[state.country];
+return r === undefined ? countries[state.country][1] : number(r);
+}
+
+function totals(devices){
+const result = {w:0,k:0,c:{}};
+if(!Array.isArray(devices)) return result;
+
+devices.forEach(d => {
+if(!d || typeof d !== "object") return;
+const w = number(d.w);
+const h = number(d.h);
+const r = number(d.r);
+const currency = typeof d.currency === "string"
+? d.currency
+: countries[state.country][0];
+
+const k = w * h / 1000;
+result.w += w;
+result.k += k;
+result.c[currency] = (result.c[currency] || 0) + k * r;
 });
-return {w,k,c};
+return result;
 }
-function money(c,m=1){
-return Object.entries(c).map(([cur,v])=>fmt(v*m)+" "+cur).join(" + ")||
-"0 "+countries[state.country][0];
+
+function money(costs,multiplier){
+const entries = Object.entries(costs);
+if(!entries.length) return "0 " + countries[state.country][0];
+return entries.map(([currency,value]) =>
+fmt(value * multiplier) + " " + currency
+).join(" + ");
 }
-function screen(){
-let z=totals();
-return t("daily")+" : "+fmt(z.k)+" kWh\n"+
-t("monthly")+" : "+fmt(z.k*30)+" kWh\n"+
-t("cost")+" : "+money(z.c);
+
+function lcdText(){
+  const z = totals(state.devices);
+  return t("monthCost") + "\n" + money(z.c,30);
 }
+
 function render(){
-document.documentElement.lang=lang;
-document.querySelectorAll("[data-t]").forEach(x=>x.textContent=t(x.dataset.t));
-$("lang").textContent=lang==="fr"?"English":"Français";
-$("nav").replaceChildren();
-["home","devices","monitor","history","guide"].forEach(p=>{
-let b=el("button",t(p),$("nav"));
-b.dataset.go=p;
-b.classList.toggle("active",p===page);
+document.documentElement.lang = lang;
+
+document.querySelectorAll("[data-t]").forEach(node => {
+node.textContent = t(node.dataset.t);
 });
-let z=totals();
-$("stats").replaceChildren();
-[
+$("lang").textContent = lang === "fr" ? "English" : "Français";
+
+clear("nav");
+["home","devices","monitor","history","guide"].forEach(id => {
+const button = element("button",t(id),$("nav"));
+button.classList.toggle("active",id === page);
+button.onclick = () => showPage(id);
+});
+
+const z = totals(state.devices);
+clear("stats");
+
+const cards = [
 [t("count"),state.devices.length],
-[t("total"),fmt(z.w)+" W"],
-[t("daily"),fmt(z.k)+" kWh"],
-[t("monthly"),fmt(z.k*30)+" kWh"],
-[t("cost"),money(z.c)],
+[t("total"),fmt(z.w) + " W"],
+[t("daily"),fmt(z.k) + " kWh"],
+[t("monthly"),fmt(z.k * 30) + " kWh"],
+[t("cost"),money(z.c,1)],
 [t("monthCost"),money(z.c,30)]
-.forEach(([a,b])=>{
-let c=el("div",undefined,$("stats"));c.className="card";
-el("span",a,c);el("strong",b,c);
+];
+
+cards.forEach(([label,value]) => {
+const card = element("div",undefined,$("stats"));
+card.className = "card";
+element("span",label,card);
+element("strong",value,card);
 });
-$("lcdScreen").textContent=screen();
-$("country").value=state.country;
-$("rate").value=rate();
-$("limit").value=state.limit;
-$("slots").replaceChildren();
-slots.forEach((s,i)=>{
-let row=el("div",undefined,$("slots"));
-el("span",s.start+" – "+s.end+" ",row);
-let b=el("button",t("remove"),row);
-b.onclick=()=>{slots.splice(i,1);render()};
+
+$("lcdScreen").textContent = lcdText();
+$("lcdStatus").textContent = lcdStatusKey ? t(lcdStatusKey) : "";
+
+$("country").value = state.country;
+$("rate").value = currentRate();
+$("limit").value = state.limit;
+
+clear("slots");
+slots.forEach((slot,index) => {
+const row = element("div",undefined,$("slots"));
+row.className = "item";
+element("span",slot.start + " – " + slot.end + " ",row);
+const button = element("button",t("remove"),row);
+button.onclick = () => {
+slots.splice(index,1);
+render();
+};
 });
-$("deviceList").replaceChildren();
-state.devices.forEach((d,i)=>{
-let row=el("div",undefined,$("deviceList"));row.className="item";
-el("p",d.name+" · "+d.w+" W · "+fmt(d.h)+" h",row);
-let b=el("button",t("remove"),row);
-b.onclick=()=>{state.devices.splice(i,1);store();render()};
+
+clear("deviceList");
+state.devices.forEach((d,index) => {
+const row = element("div",undefined,$("deviceList"));
+row.className = "item";
+element("p",
+String(d.name || "") + " · " + fmt(d.w) + " W · " + fmt(d.h) + " h",
+row
+);
+const button = element("button",t("remove"),row);
+button.onclick = () => {
+state.devices.splice(index,1);
+saveState();
+render();
+};
 });
-$("monitorBody").replaceChildren();
-el("p",fmt(z.k)+" / "+fmt(state.limit)+" kWh",$("monitorBody"));
-let over=z.k>Number(state.limit);
-let msg=el("p",over?t("exceeded"):t("normal"),$("monitorBody"));
-if(over)msg.className="warning";
-$("logs").replaceChildren();
-state.logs.forEach((l,i)=>{
-let row=el("div",undefined,$("logs"));row.className="item";
-el("p",l.date+" · "+fmt(totals(l.devices||[]).k)+" kWh",row);
-let b=el("button",t("remove"),row);
-b.onclick=()=>{state.logs.splice(i,1);store();render()};
-});
-$("steps").replaceChildren();
-t("steps").forEach(s=>el("li",s,$("steps")));
+
+clear("monitorBody");
+element("p",fmt(z.k) + " / " + fmt(state.limit) + " kWh",$("monitorBody"));
+const over = z.k > number(state.limit);
+const status = element(
+"p",
+over ? t("exceeded") : t("normal"),
+$("monitorBody")
+);
+if(over){
+status.className = "warning";
+element("p",t("advice"),$("monitorBody"));
 }
-function show(p){
-page=p;
-document.querySelectorAll("section").forEach(x=>x.classList.toggle("active",x.id===p));
+
+clear("logs");
+if(!state.logs.length) element("p",t("empty"),$("logs"));
+
+state.logs.forEach((log,index) => {
+if(!log || typeof log !== "object") return;
+const row = element("div",undefined,$("logs"));
+row.className = "item";
+const zlog = totals(log.devices);
+element("p",
+String(log.date || "") + " · " + fmt(zlog.k) + " kWh",
+row
+);
+const button = element("button",t("remove"),row);
+button.onclick = () => {
+state.logs.splice(index,1);
+saveState();
+render();
+};
+});
+
+clear("steps");
+t("steps").forEach(step => element("li",step,$("steps")));
+}
+
+function showPage(id){
+page = id;
+document.querySelectorAll("main section").forEach(section => {
+section.classList.toggle("active",section.id === id);
+});
 render();
 }
-Object.keys(countries).forEach(c=>{
-let o=el("option",c+" ("+countries[c][0]+")",$("country"));o.value=c;
-});
-document.addEventListener("click",e=>{
-let b=e.target.closest("[data-go]");
-if(b)show(b.dataset.go);
-});
-$("lang").onclick=()=>{lang=lang==="fr"?"en":"fr";store();render()};
-$("country").onchange=()=>{
-state.country=$("country").value;
-$("rate").value=rate();store();
+
+function duration(start,end){
+const parseTime = value => {
+const parts = value.split(":").map(Number);
+return parts[0] * 60 + parts[1];
 };
-$("saveSettings").onclick=()=>{
-let r=Number($("rate").value),l=Number($("limit").value);
-if(!Number.isFinite(r)||r<0||!Number.isFinite(l)||l<0){
-alert(t("invalid"));return;
+const a = parseTime(start);
+const b = parseTime(end);
+return ((b - a + 1440) % 1440) / 60;
 }
-state.rates[state.country]=r;state.limit=l;
-store();alert(t("saved"));render();
+
+Object.keys(countries).forEach(country => {
+const option = element(
+"option",
+country + " (" + countries[country][0] + ")",
+$("country")
+);
+option.value = country;
+});
+
+$("lang").onclick = () => {
+lang = lang === "fr" ? "en" : "fr";
+saveState();
+render();
 };
-$("addSlot").onclick=()=>{
-let a=$("start").value,b=$("end").value;
-if(!a||!b||a===b){alert(t("invalid"));return}
-slots.push({start:a,end:b});render();
+
+$("country").onchange = () => {
+state.country = $("country").value;
+$("rate").value = currentRate();
+saveState();
 };
-function hours(s){
-let cv=v=>{let [h,m]=v.split(":").map(Number);return h+m/60};
-return (cv(s.end)-cv(s.start)+24)%24;
+
+$("save").onclick = () => {
+const rate = Number($("rate").value);
+const limit = Number($("limit").value);
+if(
+$("rate").value === "" ||
+$("limit").value === "" ||
+!Number.isFinite(rate) || rate < 0 ||
+!Number.isFinite(limit) || limit < 0
+){
+$("message").textContent = t("invalid");
+return;
 }
-$("add").onclick=()=>{
-let name=$("name").value.trim(),w=Number($("power").value);
-if(!name||!Number.isFinite(w)||w<=0){alert(t("invalid"));return}
-if(!slots.length){alert(t("noSlots"));return}
+state.rates[state.country] = rate;
+state.limit = limit;
+saveState();
+$("message").textContent = t("saved");
+render();
+};
+
+$("addSlot").onclick = () => {
+const start = $("start").value;
+const end = $("end").value;
+if(!start || !end || start === end){
+$("message").textContent = t("invalid");
+return;
+}
+slots.push({start,end});
+$("message").textContent = "";
+render();
+};
+
+$("add").onclick = () => {
+const name = $("name").value.trim();
+const w = Number($("power").value);
+
+if(!name || !Number.isFinite(w) || w <= 0){
+$("message").textContent = t("invalid");
+return;
+}
+if(!slots.length){
+$("message").textContent = t("noSlots");
+return;
+}
+
+const h = slots.reduce(
+(sum,slot) => sum + duration(slot.start,slot.end),
+0
+);
+
 state.devices.push({
-name,w,h:slots.reduce((a,s)=>a+hours(s),0),
-r:rate(),currency:countries[state.country][0]
+name:name,
+w:w,
+h:h,
+r:currentRate(),
+currency:countries[state.country][0]
 });
+
 state.logs.unshift({
-date:new Date().toLocaleString(lang==="fr"?"fr-FR":"en-US"),
+date:new Date().toLocaleString(lang === "fr" ? "fr-FR" : "en-US"),
 devices:JSON.parse(JSON.stringify(state.devices)),
 limit:state.limit
 });
-slots=[];$("name").value="";$("power").value="";
-store();show("home");
+
+slots = [];
+$("name").value = "";
+$("power").value = "";
+saveState();
+showPage("home");
 };
-$("connect").onclick=async()=>{
+
+$("connect").onclick = async () => {
 if(!("serial" in navigator)){
-$("lcdStatus").textContent=t("unsupported");return;
+lcdStatusKey = "unsupported";
+render();
+return;
 }
-try{
-port=await navigator.serial.requestPort();
+try {
+port = await navigator.serial.requestPort();
 await port.open({baudRate:9600});
-$("lcdStatus").textContent=t("connected");
-}catch(e){$("lcdStatus").textContent=t("failed")}
-};
-$("send").onclick=async()=>{
-if(!port||!port.writable){
-$("lcdStatus").textContent=t("failed");return;
+lcdStatusKey = "connected";
+} catch(error) {
+lcdStatusKey = "failed";
 }
-let writer;
-try{
-writer=port.writable.getWriter();
-await writer.write(new TextEncoder().encode(screen()+"\n"));
-$("lcdStatus").textContent=t("sent");
-}catch(e){$("lcdStatus").textContent=t("failed")}
-finally{if(writer)writer.releaseLock()}
+render();
 };
-show("home");
+
+$("send").onclick = async () => {
+if(!port || !port.writable){
+lcdStatusKey = "failed";
+render();
+return;
+}
+let writer = null;
+try {
+writer = port.writable.getWriter();
+await writer.write(new TextEncoder().encode(lcdText() + "\n"));
+lcdStatusKey = "sent";
+} catch(error) {
+lcdStatusKey = "failed";
+} finally {
+if(writer) writer.releaseLock();
+}
+render();
+};
+
+showPage("home");
 </script>
 </body>
 </html>
