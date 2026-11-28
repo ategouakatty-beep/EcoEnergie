@@ -322,14 +322,29 @@ function render() {
   $("stats").replaceChildren();
 
   const stats = [
-    ["Appareils", devices.length],
-    ["Puissance totale", t.p.toFixed(0) + " W"],
-    ["Consommation", t.e.toFixed(2) + " kWh/j"],
-    ["Coût journalier",
-      Object.entries(t.costs)
-        .map(([c, v]) => v.toFixed(2) + " " + money(c))
-        .join(" / ") || "0"]
-  ];
+  ["Appareils", devices.length],
+
+  ["Puissance totale",
+    t.p.toFixed(0) + " W"],
+
+  ["Consommation journalière",
+    t.e.toFixed(2) + " kWh/j"],
+
+  ["Consommation mensuelle",
+    (t.e * 30).toFixed(2) + " kWh/mois"],
+
+  ["Coût journalier",
+    Object.entries(t.costs)
+      .map(([c, v]) =>
+        v.toFixed(2) + " " + money(c)
+      ).join(" / ") || "0"],
+
+  ["Coût mensuel",
+    Object.entries(t.costs)
+      .map(([c, v]) =>
+        (v * 30).toFixed(2) + " " + money(c)
+      ).join(" / ") || "0"]
+];
 
   stats.forEach(([label, value]) => {
     const d = document.createElement("div");
