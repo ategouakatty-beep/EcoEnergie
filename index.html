@@ -448,6 +448,31 @@ fillPresets();
 $("preset").value="0";
 $("preset").dispatchEvent(new Event("change"));
 go("home");
+document.addEventListener("DOMContentLoaded", function () {
+    const menu = document.querySelector("nav");
+
+    const guide = Array.from(
+        document.querySelectorAll("button")
+    ).find(function (bouton) {
+        const texte = bouton.textContent.toLowerCase();
+        return texte.includes("mode d'utilisation") ||
+               texte.includes("mode d’utilisation") ||
+               texte.includes("guide");
+    });
+
+    if (menu && guide && !menu.querySelector("#ongletGuide")) {
+        const onglet = document.createElement("button");
+        onglet.type = "button";
+        onglet.id = "ongletGuide";
+        onglet.textContent = "Mode d'utilisation";
+
+        onglet.addEventListener("click", function () {
+            guide.click();
+        });
+
+        menu.appendChild(onglet);
+    }
+}); 
 </script>
 </body>
 </html>
