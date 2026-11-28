@@ -60,7 +60,7 @@ dialog::backdrop{background:#102a20aa}
 <h2 data-t="home"></h2>
 <div id="stats" class="cards"></div>
 <button class="full" id="goDevices" data-t="add"></button>
-<button class="full secondary" id="guide" data-t="guide"></button>
+<button class="guide" id="guide" hidden data-t="guide"></button>
 </div>
 <div class="panel"><h3 data-t="devices"></h3><div id="homeList"></div></div>
 <div class="panel lcd">
@@ -261,8 +261,14 @@ function render(){
  document.querySelectorAll("[data-t]").forEach(x=>x.textContent=t(x.dataset.t));
  $("lang").textContent=lang==="fr"?"English":"Français";
  $("nav").replaceChildren();
- ["home","devices","monitor","history"].forEach(id=>{
-  const b=button(t(id),()=>go(id),$("nav"));
+ ["home","devices","monitor","history","guide"].forEach(id=>{
+ const b=button(t(id),()=>{
+  if(id==="guide"){
+    $("guide").click();
+  }else{
+    go(id);
+  }
+},$("nav")); 
   b.classList.toggle("active",id===page);
   if(id==="monitor"&&totals(state.devices).k>state.limit)b.classList.add("blink");
  });
@@ -448,46 +454,7 @@ fillPresets();
 $("preset").value="0";
 $("preset").dispatchEvent(new Event("change"));
 go("home");
-document.addEventListener("DOMContentLoaded", function () {
-    const menu = document.querySelector("nav");
 
-    const guide = Array.from(
-        document.querySelectorAll("button")
-    ).find(function (bouton) {
-        const texte = bouton.textContent.toLowerCase();
-        return texte.includes("mode d'utilisation") ||
-               texte.includes("mode d’utilisation") ||
-               texte.includes("guide");
-    });
-
-    if (menu && guide && !menu.querySelector("#ongletGuide")) {
-        const onglet = document.createElement("button");
-        onglet.type = "button";
-        onglet.id = "ongletGuide";
-        onglet.textContent = "Mode d'utilisation";
-
-        onglet.addEventListener("click", function () {
-            guide.click();
-        });
-
-        menu.appendChild(onglet);
-    }
-}); 
- document.addEventListener("DOMContentLoaded", function () {
-    const menu = document.querySelector("nav");
-
-    const boutonAccueil = Array.from(
-        document.querySelectorAll("button")
-    ).find(function (bouton) {
-        return !menu.contains(bouton) &&
-            bouton.textContent.trim().toLowerCase()
-                .includes("mode d’utilisation");
-    });
-
-    if (boutonAccueil) {
-        boutonAccueil.style.display = "none";
-    }
-});
 </script>
 </body>
 </html>
