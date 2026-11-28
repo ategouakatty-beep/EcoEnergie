@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+ <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#174d36">
 <title>ÉcoÉnergie</title>
 <style>
 *{box-sizing:border-box}
@@ -585,6 +587,17 @@ languePartage();
 document.getElementById("lang").addEventListener(
     "click", languePartage
 );
+ if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./sw.js")
+            .then(function () {
+                console.log("ÉcoÉnergie est prêt à être installé.");
+            })
+            .catch(function (error) {
+                console.error("Erreur du service worker :", error);
+            });
+    });
+}
 </script>
 </body>
 </html>
